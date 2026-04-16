@@ -1,0 +1,92 @@
+[
+  {
+    "task_id": "Java/2",
+    "prompt": "import java.util.*;\nimport java.lang.*;\n\nclass Solution {\n    /**\n    Given a positive floating point number, it can be decomposed into\n    and integer part (largest integer smaller than given number) and decimals\n    (leftover part always smaller than 1).\n\n    Return the decimal part of the number.\n    >>> truncateNumber(3.5)\n    0.5\n     */\n    public double truncateNumber(double number) {\n",
+    "canonical_solution": "        return number % 1.0;\n    }\n}",
+    "test": "public class Main {\n    public static void main(String[] args) {\n        Solution s = new Solution();\n        List<Boolean> correct = Arrays.asList(\n            s.truncateNumber(3.5) == 0.5,\n            Math.abs(s.truncateNumber(1.33) - 0.33) < 1e-6,\n            Math.abs(s.truncateNumber(123.456) - 0.456) < 1e-6\n        );\n        if (correct.contains(false)) {\n            throw new AssertionError();\n        }\n    }\n}",
+    "text": "    Given a positive floating point number, it can be decomposed into\n    and integer part (largest integer smaller than given number) and decimals\n    (leftover part always smaller than 1).\n\n    Return the decimal part of the number.\n    >>> truncateNumber(3.5)\n    0.5",
+    "declaration": "import java.util.*;\nimport java.lang.*;\n\nclass Solution {\n    public double truncateNumber(double number) {\n",
+    "example_test": "public class Main {\n    public static void main(String[] args) {\n        Solution s = new Solution();\n        List<Boolean> correct = Arrays.asList(\n            s.truncateNumber(3.5) == 0.5\n        );\n        if (correct.contains(false)) {\n            throw new AssertionError();\n        }\n    }\n}\n"
+  },
+  {
+    "task_id": "Java/8",
+    "prompt": "import java.util.*;\nimport java.lang.*;\n\nclass Solution {\n    /**\n    For a given list of integers, return a tuple consisting of a sum and a product of all the integers in a list.\n    Empty sum should be equal to 0 and empty product should be equal to 1.\n    >>> sumProduct(List.of())\n    [0, 1]\n    >>> sumProduct(Arrays.asList(1, 2, 3, 4))\n    [10, 24]\n     */\n    public List<Integer> sumProduct(List<Integer> numbers) {\n",
+    "canonical_solution": "        int sum = 0;\n        int product = 1;\n\n        for (int n : numbers) {\n            sum += n;\n            product *= n;\n        }\n        return Arrays.asList(sum, product);\n    }\n}",
+    "test": "public class Main {\n    public static void main(String[] args) {\n        Solution s = new Solution();\n        List<Boolean> correct = Arrays.asList(\n                s.sumProduct(new ArrayList<>(List.of())).equals(Arrays.asList(0, 1)),\n                s.sumProduct(new ArrayList<>(Arrays.asList(1, 1, 1))).equals(Arrays.asList(3, 1)),\n                s.sumProduct(new ArrayList<>(Arrays.asList(100, 0))).equals(Arrays.asList(100, 0)),\n                s.sumProduct(new ArrayList<>(Arrays.asList(3, 5, 7))).equals(Arrays.asList(3 + 5 + 7, 3 * 5 * 7)),\n                s.sumProduct(new ArrayList<>(List.of(10))).equals(Arrays.asList(10, 10))\n        );\n        if (correct.contains(false)) {\n            throw new AssertionError();\n        }\n    }\n}",
+    "text": "    For a given list of integers, return a tuple consisting of a sum and a product of all the integers in a list.\n    Empty sum should be equal to 0 and empty product should be equal to 1.\n    >>> sumProduct(List.of())\n    [0, 1]\n    >>> sumProduct(Arrays.asList(1, 2, 3, 4))\n    [10, 24]",
+    "declaration": "import java.util.*;\nimport java.lang.*;\n\nclass Solution {\n    public List<Integer> sumProduct(List<Integer> numbers) {\n",
+    "example_test": "public class Main {\n    public static void main(String[] args) {\n        Solution s = new Solution();\n        List<Boolean> correct = Arrays.asList(\n                s.sumProduct(new ArrayList<>(List.of())).equals(Arrays.asList(0, 1)),\n                s.sumProduct(new ArrayList<>(Arrays.asList(1, 2, 3,4))).equals(Arrays.asList(10, 24))\n        );\n        if (correct.contains(false)) {\n            throw new AssertionError();\n        }\n    }\n}\n"
+  },
+  {
+    "task_id": "Java/11",
+    "prompt": "import java.util.*;\nimport java.lang.*;\n\nclass Solution {\n    /**\n    Input are two strings a and b consisting only of 1s and 0s.\n    Perform binary XOR on these inputs and return result also as a string.\n    >>> stringXor(\"010\", \"110\")\n    \"100\"\n     */\n    public String stringXor(String a, String b) {\n",
+    "canonical_solution": "        StringBuilder result = new StringBuilder();\n        for (int i = 0; i < a.length(); i++) {\n            if (a.charAt(i) == b.charAt(i)) {\n                result.append(\"0\");\n            } else {\n                result.append(\"1\");\n            }\n        }\n        return result.toString();\n    }\n}",
+    "test": "public class Main {\n    public static void main(String[] args) {\n        Solution s = new Solution();\n        List<Boolean> correct = Arrays.asList(\n                Objects.equals(s.stringXor(\"111000\", \"101010\"), \"010010\"),\n                Objects.equals(s.stringXor(\"1\", \"1\"), \"0\"),\n                Objects.equals(s.stringXor(\"0101\", \"0000\"), \"0101\")\n        );\n        if (correct.contains(false)) {\n            throw new AssertionError();\n        }\n    }\n}",
+    "text": "    Input are two strings a and b consisting only of 1s and 0s.\n    Perform binary XOR on these inputs and return result also as a string.\n    >>> stringXor(\"010\", \"110\")\n    \"100\"",
+    "declaration": "import java.util.*;\nimport java.lang.*;\n\nclass Solution {\n    public String stringXor(String a, String b) {\n",
+    "example_test": "public class Main {\n    public static void main(String[] args) {\n        Solution s = new Solution();\n        List<Boolean> correct = Arrays.asList(\n                Objects.equals(s.stringXor(\"010\", \"110\"), \"100\")\n        );\n        if (correct.contains(false)) {\n            throw new AssertionError();\n        }\n    }\n}\n"
+  },
+  {
+    "task_id": "Java/23",
+    "prompt": "import java.util.*;\nimport java.lang.*;\n\nclass Solution {\n    /**\n    Return length of given string\n    >>> strlen(\"\")\n    0\n    >>> strlen(\"abc\")\n    3\n     */\n    public int strlen(String string) {\n",
+    "canonical_solution": "        return string.length();\n    }\n}",
+    "test": "public class Main {\n    public static void main(String[] args) {\n        Solution s = new Solution();\n        List<Boolean> correct = Arrays.asList(\n                s.strlen(\"\") == 0,\n                s.strlen(\"x\") == 1,\n                s.strlen(\"asdfgh\") == 6\n        );\n        if (correct.contains(false)) {\n            throw new AssertionError();\n        }\n    }\n}",
+    "text": "    Return length of given string\n    >>> strlen(\"\")\n    0\n    >>> strlen(\"abc\")\n    3",
+    "declaration": "import java.util.*;\nimport java.lang.*;\n\nclass Solution {\n    public int strlen(String string) {\n",
+    "example_test": "public class Main {\n    public static void main(String[] args) {\n        Solution s = new Solution();\n        List<Boolean> correct = Arrays.asList(\n                s.strlen(\"\") == 0,\n                s.strlen(\"abc\") == 3\n        );\n        if (correct.contains(false)) {\n            throw new AssertionError();\n        }\n    }\n}\n"
+  },
+  {
+    "task_id": "Java/27",
+    "prompt": "import java.util.*;\nimport java.lang.*;\n\nclass Solution {\n    /**\n    For a given string, flip lowercase characters to uppercase and uppercase to lowercase.\n    >>> flipCase(\"Hello\")\n    \"hELLO\"\n     */\n    public String flipCase(String string) {\n",
+    "canonical_solution": "        StringBuilder result = new StringBuilder();\n        for (char c : string.toCharArray()) {\n            if (Character.isLowerCase(c)) {\n                result.append(Character.toUpperCase(c));\n            } else if (Character.isUpperCase(c)) {\n                result.append(Character.toLowerCase(c));\n            } else {\n                result.append(c);\n            }\n        }\n        return result.toString();\n    }\n}",
+    "test": "public class Main {\n    public static void main(String[] args) {\n        Solution s = new Solution();\n        List<Boolean> correct = Arrays.asList(\n                Objects.equals(s.flipCase(\"\"), \"\"),\n                Objects.equals(s.flipCase(\"Hello!\"), \"hELLO!\"),\n                Objects.equals(s.flipCase(\"These violent delights have violent ends\"), \"tHESE VIOLENT DELIGHTS HAVE VIOLENT ENDS\")\n        );\n        if (correct.contains(false)) {\n            throw new AssertionError();\n        }\n    }\n}",
+    "text": "    For a given string, flip lowercase characters to uppercase and uppercase to lowercase.\n    >>> flipCase(\"Hello\")\n    \"hELLO\"",
+    "declaration": "import java.util.*;\nimport java.lang.*;\n\nclass Solution {\n    public String flipCase(String string) {\n",
+    "example_test": "public class Main {\n    public static void main(String[] args) {\n        Solution s = new Solution();\n        List<Boolean> correct = Arrays.asList(\n                Objects.equals(s.flipCase(\"Hello\"), \"hELLO\")\n        );\n        if (correct.contains(false)) {\n            throw new AssertionError();\n        }\n    }\n}\n"
+  },
+  {
+    "task_id": "Java/28",
+    "prompt": "import java.util.*;\nimport java.lang.*;\n\nclass Solution {\n    /**\n    Concatenate list of strings into a single string\n    >>> concatenate(List.of())\n    \"\"\n    >>> concatenate(Arrays.asList(\"a\", \"b\", \"c\"))\n    \"abc\"\n     */\n    public String concatenate(List<String> strings) {\n",
+    "canonical_solution": "        StringBuilder result = new StringBuilder();\n        for (String s : strings) {\n            result.append(s);\n        }\n        return result.toString();\n    }\n}",
+    "test": "public class Main {\n    public static void main(String[] args) {\n        Solution s = new Solution();\n        List<Boolean> correct = Arrays.asList(\n                Objects.equals(s.concatenate(new ArrayList<>(List.of())), \"\"),\n                Objects.equals(s.concatenate(new ArrayList<>(Arrays.asList(\"x\", \"y\", \"z\"))), \"xyz\"),\n                Objects.equals(s.concatenate(new ArrayList<>(Arrays.asList(\"x\", \"y\", \"z\", \"w\", \"k\"))), \"xyzwk\")\n        );\n        if (correct.contains(false)) {\n            throw new AssertionError();\n        }\n    }\n}",
+    "text": "    Concatenate list of strings into a single string\n    >>> concatenate(List.of())\n    \"\"\n    >>> concatenate(Arrays.asList(\"a\", \"b\", \"c\"))\n    \"abc\"",
+    "declaration": "import java.util.*;\nimport java.lang.*;\n\nclass Solution {\n    public String concatenate(List<String> strings) {\n",
+    "example_test": "public class Main {\n    public static void main(String[] args) {\n        Solution s = new Solution();\n        List<Boolean> correct = Arrays.asList(\n                Objects.equals(s.concatenate(new ArrayList<>(List.of())), \"\"),\n                Objects.equals(s.concatenate(new ArrayList<>(Arrays.asList(\"a\", \"b\", \"c\"))), \"abc\")\n        );\n        if (correct.contains(false)) {\n            throw new AssertionError();\n        }\n    }\n}\n"
+  },
+  {
+    "task_id": "Java/30",
+    "prompt": "import java.util.*;\nimport java.lang.*;\n\nclass Solution {\n    /**\n    Return only positive numbers in the list.\n    >>> getPositive(Arrays.asList(-1, 2, -4, 5, 6))\n    [2, 5, 6]\n    >>> getPositive(Arrays.asList(5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10))\n    [5, 3, 2, 3, 9, 123, 1]\n     */\n    public List<Integer> getPositive(List<Integer> l) {\n",
+    "canonical_solution": "        List<Integer> result = new ArrayList<>();\n        for (int n : l) {\n            if (n > 0) {\n                result.add(n);\n            }\n        }\n        return result;\n    }\n}",
+    "test": "public class Main {\n    public static void main(String[] args) {\n        Solution s = new Solution();\n        List<Boolean> correct = Arrays.asList(\n                s.getPositive(new ArrayList<>(Arrays.asList(-1, -2, 4, 5, 6))).equals(Arrays.asList(4, 5, 6)),\n                s.getPositive(new ArrayList<>(Arrays.asList(5, 3, -5, 2, 3, 3, 9, 0, 123, 1, -10))).equals(Arrays.asList(5, 3, 2, 3, 3, 9, 123, 1))\n        );\n        if (correct.contains(false)) {\n            throw new AssertionError();\n        }\n    }\n}",
+    "text": "    Return only positive numbers in the list.\n    >>> getPositive(Arrays.asList(-1, 2, -4, 5, 6))\n    [2, 5, 6]\n    >>> getPositive(Arrays.asList(5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10))\n    [5, 3, 2, 3, 9, 123, 1]",
+    "declaration": "import java.util.*;\nimport java.lang.*;\n\nclass Solution {\n    public List<Integer> getPositive(List<Integer> l) {\n",
+    "example_test": "public class Main {\n    public static void main(String[] args) {\n        Solution s = new Solution();\n        List<Boolean> correct = Arrays.asList(\n                s.getPositive(new ArrayList<>(Arrays.asList(-1, 2, -4, 5, 6))).equals(Arrays.asList(2, 5, 6)),\n                s.getPositive(new ArrayList<>(Arrays.asList(5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10))).equals(Arrays.asList(5, 3, 2, 3, 9, 123, 1))\n        );\n        if (correct.contains(false)) {\n            throw new AssertionError();\n        }\n    }\n}\n"
+  },
+  {
+    "task_id": "Java/35",
+    "prompt": "import java.util.*;\nimport java.lang.*;\n\nclass Solution {\n    /**\n    Return maximum element in the list.\n    >>> maxElement(Arrays.asList(1, 2, 3))\n    3\n    >>> maxElement(Arrays.asList(5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10))\n    123\n     */\n    public int maxElement(List<Integer> l) {\n",
+    "canonical_solution": "        int max = l.get(0);\n        for (int n : l) {\n            if (n > max) {\n                max = n;\n            }\n        }\n        return max;\n    }\n}",
+    "test": "public class Main {\n    public static void main(String[] args) {\n        Solution s = new Solution();\n        List<Boolean> correct = Arrays.asList(\n                s.maxElement(new ArrayList<>(Arrays.asList(1, 2, 3))) == 3,\n                s.maxElement(new ArrayList<>(Arrays.asList(5, 3, -5, 2, -3, 3, 9, 0, 124, 1, -10))) == 124\n        );\n        if (correct.contains(false)) {\n            throw new AssertionError();\n        }\n    }\n}",
+    "text": "    Return maximum element in the list.\n    >>> maxElement(Arrays.asList(1, 2, 3))\n    3\n    >>> maxElement(Arrays.asList(5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10))\n    123",
+    "declaration": "import java.util.*;\nimport java.lang.*;\n\nclass Solution {\n    public int maxElement(List<Integer> l) {\n",
+    "example_test": "public class Main {\n    public static void main(String[] args) {\n        Solution s = new Solution();\n        List<Boolean> correct = Arrays.asList(\n                s.maxElement(new ArrayList<>(Arrays.asList(1, 2, 3))) == 3,\n                s.maxElement(new ArrayList<>(Arrays.asList(5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10))) == 123\n        );\n        if (correct.contains(false)) {\n            throw new AssertionError();\n        }\n    }\n}\n"
+  },
+  {
+    "task_id": "Java/45",
+    "prompt": "import java.util.*;\nimport java.lang.*;\n\nclass Solution {\n    /**\n    Given length of a side and high return area for a triangle.\n    >>> triangleArea(5, 3)\n    7.5\n     */\n    public double triangleArea(int a, int h) {\n",
+    "canonical_solution": "        return a * h / 2.0;\n    }\n}",
+    "test": "public class Main {\n    public static void main(String[] args) {\n        Solution s = new Solution();\n        List<Boolean> correct = Arrays.asList(\n                s.triangleArea(5, 3) == 7.5,\n                s.triangleArea(2, 2) == 2.0,\n                s.triangleArea(10, 8) == 40.0\n        );\n        if (correct.contains(false)) {\n            throw new AssertionError();\n        }\n    }\n}",
+    "text": "    Given length of a side and high return area for a triangle.\n    >>> triangleArea(5, 3)\n    7.5",
+    "declaration": "import java.util.*;\nimport java.lang.*;\n\nclass Solution {\n    public double triangleArea(int a, int h) {\n",
+    "example_test": "public class Main {\n    public static void main(String[] args) {\n        Solution s = new Solution();\n        List<Boolean> correct = Arrays.asList(\n                s.triangleArea(5, 3) == 7.5\n        );\n        if (correct.contains(false)) {\n            throw new AssertionError();\n        }\n    }\n}\n"
+  },
+  {
+    "task_id": "Java/53",
+    "prompt": "import java.util.*;\nimport java.lang.*;\n\nclass Solution {\n    /**\n    Add two numbers x and y\n    >>> add(2, 3)\n    5\n    >>> add(5, 7)\n    12\n     */\n    public int add(int x, int y) {\n",
+    "canonical_solution": "        return x + y;\n    }\n}",
+    "test": "public class Main {\n    public static void main(String[] args) {\n        Solution s = new Solution();\n        List<Boolean> correct = Arrays.asList(\n                s.add(0, 1) == 1,\n                s.add(1, 0) == 1,\n                s.add(2, 3) == 5,\n                s.add(5, 7) == 12,\n                s.add(7, 5) == 12\n        );\n        if (correct.contains(false)) {\n            throw new AssertionError();\n        }\n        Random rand = new Random();\n        for (int i = 0; i < 100; i++) {\n            int x = rand.nextInt(1000);\n            int y = rand.nextInt(1000);\n            if (s.add(x, y) != x + y) {\n                throw new AssertionError();\n            }\n        }\n    }\n}",
+    "text": "    Add two numbers x and y\n    >>> add(2, 3)\n    5\n    >>> add(5, 7)\n    12",
+    "declaration": "import java.util.*;\nimport java.lang.*;\n\nclass Solution {\n    public int add(int x, int y) {\n",
+    "example_test": "public class Main {\n    public static void main(String[] args) {\n        Solution s = new Solution();\n        List<Boolean> correct = Arrays.asList(\n                s.add(2, 3) == 5,\n                s.add(5, 7) == 12\n        );\n        if (correct.contains(false)) {\n            throw new AssertionError();\n        }\n    }\n}\n"
+  }
+]
