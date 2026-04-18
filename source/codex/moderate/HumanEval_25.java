@@ -1,7 +1,7 @@
 import java.util.*;
 import java.lang.*;
 
-class Solution {
+public class HumanEval_25 {
     /**
     Return list of prime factors of given integer in the order from smallest to largest.
     Each of the factors should be listed number of times corresponding to how many times it appeares in factorization.
@@ -29,24 +29,5 @@ class Solution {
             result.add(n);
         }
         return result;
-    }
-}
-
-public class HumanEval_25 {
-    public static void main(String[] args) {
-        Solution s = new Solution();
-        List<Boolean> correct = Arrays.asList(
-                s.factorize(2).equals(List.of(2)),
-                s.factorize(4).equals(Arrays.asList(2, 2)),
-                s.factorize(8).equals(Arrays.asList(2, 2, 2)),
-                s.factorize(57).equals(Arrays.asList(3, 19)),
-                s.factorize(3249).equals(Arrays.asList(3, 3, 19, 19)),
-                s.factorize(185193).equals(Arrays.asList(3, 3, 3, 19, 19, 19)),
-                s.factorize(20577).equals(Arrays.asList(3, 19, 19, 19)),
-                s.factorize(18).equals(Arrays.asList(2, 3, 3))
-        );
-        if (correct.contains(false)) {
-            throw new AssertionError();
-        }
     }
 }

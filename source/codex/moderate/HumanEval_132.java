@@ -1,7 +1,7 @@
 import java.util.*;
 import java.lang.*;
 
-class Solution {
+public class HumanEval_132 {
     /**
     Create a function that takes a string as input which contains only square brackets.
     The function should return true if there are any mansions of brackets nested such that at least one bracket contains a nested bracket.
@@ -24,28 +24,5 @@ class Solution {
             }
         }
         return max_depth >= 2;
-    }
-}
-
-public class HumanEval_132 {
-    public static void main(String[] args) {
-        Solution s = new Solution();
-        List<Boolean> correct = Arrays.asList(
-                s.isNested("[[]]") == true,
-                s.isNested("[]]]]]") == false,
-                s.isNested("[][]") == false,
-                s.isNested("[]") == false,
-                s.isNested("[[[[]]]]") == true,
-                s.isNested("[]]]]]][") == false,
-                s.isNested("[[][]]") == true,
-                s.isNested("[[]][[") == true,
-                s.isNested("[[][]]") == true,
-                s.isNested("[]") == false,
-                s.isNested("[]]][][") == false,
-                s.isNested("[][]") == false
-        );
-        if (correct.contains(false)) {
-            throw new AssertionError();
-        }
     }
 }

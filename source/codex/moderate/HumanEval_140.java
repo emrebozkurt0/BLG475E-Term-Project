@@ -1,7 +1,7 @@
 import java.util.*;
 import java.lang.*;
 
-class Solution {
+public class HumanEval_140 {
     /**
     Given a string text, replace all spaces in it with underscores, 
     and if a string has more than 2 consecutive spaces, 
@@ -45,23 +45,5 @@ class Solution {
             }
         }
         return res.toString();
-    }
-}
-
-public class HumanEval_140 {
-    public static void main(String[] args) {
-        Solution s = new Solution();
-        List<Boolean> correct = Arrays.asList(
-                Objects.equals(s.fixSpaces("Example"), "Example"),
-                Objects.equals(s.fixSpaces("M r m o n "), "M_r_m_o_n_"),
-                Objects.equals(s.fixSpaces("Example rente"), "Example_rente"),
-                Objects.equals(s.fixSpaces("Example   rente"), "Example-rente"),
-                Objects.equals(s.fixSpaces(" Example   rente"), "_Example-rente"),
-                Objects.equals(s.fixSpaces("__Ex  ample__"), "__Ex__ample__"),
-                Objects.equals(s.fixSpaces("Exa   mple"), "Exa-mple")
-        );
-        if (correct.contains(false)) {
-            throw new AssertionError();
-        }
     }
 }

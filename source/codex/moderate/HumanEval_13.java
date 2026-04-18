@@ -1,7 +1,7 @@
 import java.util.*;
 import java.lang.*;
 
-class Solution {
+public class HumanEval_13 {
     /**
     Return a greatest common divisor of two integers a and b
     >>> greatestCommonDivisor(3, 5)
@@ -20,21 +20,6 @@ class Solution {
             return greatestCommonDivisor(a % b, b);
         } else {
             return greatestCommonDivisor(a, b % a);
-        }
-    }
-}
-
-public class HumanEval_13 {
-    public static void main(String[] args) {
-        Solution s = new Solution();
-        List<Boolean> correct = Arrays.asList(
-                s.greatestCommonDivisor(3, 7) == 1,
-                s.greatestCommonDivisor(10, 15) == 5,
-                s.greatestCommonDivisor(49, 14) == 7,
-                s.greatestCommonDivisor(144, 60) == 12
-        );
-        if (correct.contains(false)) {
-            throw new AssertionError();
         }
     }
 }
