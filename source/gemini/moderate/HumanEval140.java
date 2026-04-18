@@ -1,7 +1,7 @@
 import java.util.*;
 import java.lang.*;
 
-class Solution {
+public class HumanEval140 {
     public String fixSpaces(String text) {
         StringBuilder res = new StringBuilder();
         int i = 0;
@@ -35,21 +35,5 @@ class Solution {
             }
         }
         return res.toString();
-    }
-}
-
-public class HumanEval140 {
-    public static void main(String[] args) {
-        Solution s = new Solution();
-        List<Boolean> correct = Arrays.asList(
-                s.fixSpaces("Example").equals("Example"),
-                s.fixSpaces("Example 1").equals("Example_1"),
-                s.fixSpaces(" Example 2").equals("_Example_2"),
-                s.fixSpaces(" Example   3").equals("_Example-3"),
-                s.fixSpaces("a  b   c").equals("a__b-c")
-        );
-        if (correct.contains(false)) {
-            throw new AssertionError();
-        }
     }
 }

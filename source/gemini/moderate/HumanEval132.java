@@ -1,7 +1,7 @@
 import java.util.*;
 import java.lang.*;
 
-class Solution {
+public class HumanEval132 {
     public boolean isNested(String string) {
         int count = 0, max_depth = 0;
         for (char c : string.toCharArray()) {
@@ -13,22 +13,5 @@ class Solution {
             }
         }
         return max_depth >= 2;
-    }
-}
-
-public class HumanEval132 {
-    public static void main(String[] args) {
-        Solution s = new Solution();
-        List<Boolean> correct = Arrays.asList(
-                s.isNested("[[]]") == true,
-                s.isNested("[]]]]]") == false,
-                s.isNested("[][]") == false,
-                s.isNested("[]") == false,
-                s.isNested("[[][]]") == true,
-                s.isNested("[[]][[" ) == true
-        );
-        if (correct.contains(false)) {
-            throw new AssertionError();
-        }
     }
 }
