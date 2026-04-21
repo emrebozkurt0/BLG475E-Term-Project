@@ -1,0 +1,15 @@
+.DS_Store
+
+*.pdf
+
+*.json
+
+*.py
+
+.idea/
+
+*.iml
+
+target/
+
+assets/
