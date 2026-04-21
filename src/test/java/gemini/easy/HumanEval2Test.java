@@ -1,21 +1,14 @@
 package gemini.easy;
-
-import java.util.*;
-import java.lang.*;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 public class HumanEval2Test {
-    @Test
-    public void testSolution() {
+    @ParameterizedTest
+    @CsvSource({"3.5, 0.5", "1.33, 0.33", "123.456, 0.456"})
+    public void testTruncateNumber(double input, double expected) {
         HumanEval2 s = new HumanEval2();
-        List<Boolean> correct = Arrays.asList(
-            s.truncateNumber(3.5) == 0.5,
-            Math.abs(s.truncateNumber(1.33) - 0.33) < 1e-6,
-            Math.abs(s.truncateNumber(123.456) - 0.456) < 1e-6
-        );
-        if (correct.contains(false)) {
-            throw new AssertionError();
-        }
+        double delta = 1e-6;
+        double result = s.truncateNumber(input);
+        assertEquals(expected, result, delta);
     }
 }

@@ -1,21 +1,13 @@
 package gemini.easy;
-
-import java.util.*;
-import java.lang.*;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 public class HumanEval11Test {
-    @Test
-    public void testSolution() {
+    @ParameterizedTest
+    @CsvSource({"111000, 101010, 010010", "1, 1, 0", "0101, 0000, 0101"})
+    public void testStringXor(String a, String b, String expected) {
         HumanEval11 s = new HumanEval11();
-        List<Boolean> correct = Arrays.asList(
-                Objects.equals(s.stringXor("111000", "101010"), "010010"),
-                Objects.equals(s.stringXor("1", "1"), "0"),
-                Objects.equals(s.stringXor("0101", "0000"), "0101")
-        );
-        if (correct.contains(false)) {
-            throw new AssertionError();
-        }
+        String result = s.stringXor(a, b);
+        assertEquals(expected, result);
     }
 }

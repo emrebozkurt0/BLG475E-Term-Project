@@ -1,23 +1,24 @@
 package gemini.easy;
-
 import java.util.*;
-import java.lang.*;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.Arguments;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 public class HumanEval8Test {
-    @Test
-    public void testSolution() {
+    @ParameterizedTest
+    @MethodSource("provideLists")
+    public void testSumProduct(List<Integer> input, List<Integer> expected) {
         HumanEval8 s = new HumanEval8();
-        List<Boolean> correct = Arrays.asList(
-                s.sumProduct(new ArrayList<>(List.of())).equals(Arrays.asList(0, 1)),
-                s.sumProduct(new ArrayList<>(Arrays.asList(1, 1, 1))).equals(Arrays.asList(3, 1)),
-                s.sumProduct(new ArrayList<>(Arrays.asList(100, 0))).equals(Arrays.asList(100, 0)),
-                s.sumProduct(new ArrayList<>(Arrays.asList(3, 5, 7))).equals(Arrays.asList(3 + 5 + 7, 3 * 5 * 7)),
-                s.sumProduct(new ArrayList<>(List.of(10))).equals(Arrays.asList(10, 10))
+        List<Integer> result = s.sumProduct(new ArrayList<>(input));
+        assertEquals(expected, result);
+    }
+    private static java.util.stream.Stream<Arguments> provideLists() {
+        return java.util.stream.Stream.of(
+            Arguments.of(List.of(), Arrays.asList(0, 1)),
+            Arguments.of(Arrays.asList(1, 1, 1), Arrays.asList(3, 1)),
+            Arguments.of(Arrays.asList(100, 0), Arrays.asList(100, 0)),
+            Arguments.of(Arrays.asList(3, 5, 7), Arrays.asList(15, 105)),
+            Arguments.of(List.of(10), Arrays.asList(10, 10))
         );
-        if (correct.contains(false)) {
-            throw new AssertionError();
-        }
     }
 }

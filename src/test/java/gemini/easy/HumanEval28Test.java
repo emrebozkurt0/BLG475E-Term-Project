@@ -1,21 +1,22 @@
 package gemini.easy;
-
 import java.util.*;
-import java.lang.*;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.Arguments;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 public class HumanEval28Test {
-    @Test
-    public void testSolution() {
+    @ParameterizedTest
+    @MethodSource("provideStrings")
+    public void testConcatenate(List<String> input, String expected) {
         HumanEval28 s = new HumanEval28();
-        List<Boolean> correct = Arrays.asList(
-                Objects.equals(s.concatenate(new ArrayList<>(List.of())), ""),
-                Objects.equals(s.concatenate(new ArrayList<>(Arrays.asList("x", "y", "z"))), "xyz"),
-                Objects.equals(s.concatenate(new ArrayList<>(Arrays.asList("x", "y", "z", "w", "k"))), "xyzwk")
+        String result = s.concatenate(new ArrayList<>(input));
+        assertEquals(expected, result);
+    }
+    private static java.util.stream.Stream<Arguments> provideStrings() {
+        return java.util.stream.Stream.of(
+            Arguments.of(List.of(), ""),
+            Arguments.of(Arrays.asList("x", "y", "z"), "xyz"),
+            Arguments.of(Arrays.asList("x", "y", "z", "w", "k"), "xyzwk")
         );
-        if (correct.contains(false)) {
-            throw new AssertionError();
-        }
     }
 }

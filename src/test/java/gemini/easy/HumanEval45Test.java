@@ -1,21 +1,13 @@
 package gemini.easy;
-
-import java.util.*;
-import java.lang.*;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 public class HumanEval45Test {
-    @Test
-    public void testSolution() {
+    @ParameterizedTest
+    @CsvSource({"5, 3, 7.5", "2, 2, 2.0", "10, 8, 40.0"})
+    public void testTriangleArea(int a, int h, double expected) {
         HumanEval45 s = new HumanEval45();
-        List<Boolean> correct = Arrays.asList(
-                s.triangleArea(5, 3) == 7.5,
-                s.triangleArea(2, 2) == 2.0,
-                s.triangleArea(10, 8) == 40.0
-        );
-        if (correct.contains(false)) {
-            throw new AssertionError();
-        }
+        double result = s.triangleArea(a, h);
+        assertEquals(expected, result);
     }
 }
