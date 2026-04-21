@@ -1,25 +1,29 @@
 package codex.moderate;
 
-import java.util.*;
-import java.lang.*;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.stream.Stream;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class HumanEval51Test {
-    @Test
-    public void testSolution() {
-        HumanEval_51 s = new HumanEval_51();
-        List<Boolean> correct = Arrays.asList(
-                Objects.equals(s.removeVowels(""), ""),
-                Objects.equals(s.removeVowels("abcdef\nghijklm"), "bcdf\nghjklm"),
-                Objects.equals(s.removeVowels("fedcba"), "fdcb"),
-                Objects.equals(s.removeVowels("eeeee"), ""),
-                Objects.equals(s.removeVowels("acBAA"), "cB"),
-                Objects.equals(s.removeVowels("EcBOO"), "cB"),
-                Objects.equals(s.removeVowels("ybcd"), "ybcd")
+    static Stream<Arguments> removeVowelsCases() {
+        return Stream.of(
+                Arguments.of("", ""),
+                Arguments.of("abcdef\nghijklm", "bcdf\nghjklm"),
+                Arguments.of("fedcba", "fdcb"),
+                Arguments.of("eeeee", ""),
+                Arguments.of("acBAA", "cB"),
+                Arguments.of("EcBOO", "cB"),
+                Arguments.of("ybcd", "ybcd")
         );
-        if (correct.contains(false)) {
-            throw new AssertionError();
-        }
+    }
+
+    @ParameterizedTest
+    @MethodSource("removeVowelsCases")
+    public void testRemoveVowels(String input, String expected) {
+        HumanEval_51 s = new HumanEval_51();
+        assertEquals(expected, s.removeVowels(input));
     }
 }

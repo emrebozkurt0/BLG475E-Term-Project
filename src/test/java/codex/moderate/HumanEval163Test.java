@@ -1,22 +1,28 @@
 package codex.moderate;
 
-import java.util.*;
-import java.lang.*;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class HumanEval163Test {
-    @Test
-    public void testSolution() {
-        HumanEval_163 s = new HumanEval_163();
-        List<Boolean> correct = Arrays.asList(
-                s.generateIntegers(2, 10).equals(Arrays.asList(2, 4, 6, 8)),
-                s.generateIntegers(10, 2).equals(Arrays.asList(2, 4, 6, 8)),
-                s.generateIntegers(132, 2).equals(Arrays.asList(2, 4, 6, 8)),
-                s.generateIntegers(17, 89).equals(List.of())
+    static Stream<Arguments> generateIntegersCases() {
+        return Stream.of(
+                Arguments.of(2, 10, Arrays.asList(2, 4, 6, 8)),
+                Arguments.of(10, 2, Arrays.asList(2, 4, 6, 8)),
+                Arguments.of(132, 2, Arrays.asList(2, 4, 6, 8)),
+                Arguments.of(17, 89, List.of())
         );
-        if (correct.contains(false)) {
-            throw new AssertionError();
-        }
+    }
+
+    @ParameterizedTest
+    @MethodSource("generateIntegersCases")
+    public void testGenerateIntegers(int a, int b, List<Integer> expected) {
+        HumanEval_163 s = new HumanEval_163();
+        assertEquals(expected, s.generateIntegers(a, b));
     }
 }

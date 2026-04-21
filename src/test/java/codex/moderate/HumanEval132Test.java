@@ -1,32 +1,31 @@
 package codex.moderate;
 
-import java.util.*;
-import java.lang.*;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class HumanEval132Test {
-    @Test
-    public void testSolution() {
+    @ParameterizedTest
+    @CsvSource({
+            "'a', false",
+            "'[[]]', true",
+            "'[]]]]]]][[[[[]', false",
+            "'[][]', false",
+            "'[]', false",
+            "'[[[[]]]]', true",
+            "'[]]]]]]]]]]', false",
+            "'[][][[]]', true",
+            "'[[]', false",
+            "'[]]', false",
+            "'[[]][[', true",
+            "'[[][]]', true",
+            "'', false",
+            "'[[[[[[[[', false",
+            "']]]]]]]]', false"
+    })
+    public void testIsNested(String input, boolean expected) {
         HumanEval_132 s = new HumanEval_132();
-        List<Boolean> correct = Arrays.asList(
-                s.isNested("[[]]" ),
-                !s.isNested("[]]]]]]][[[[[]" ),
-                !s.isNested("[][]" ),
-                !s.isNested("[]" ),
-                s.isNested("[[[[]]]]" ),
-                !s.isNested("[]]]]]]]]]]" ),
-                s.isNested("[][][[]]" ),
-                !s.isNested("[[]" ),
-                !s.isNested("[]]" ),
-                s.isNested("[[]][[" ),
-                s.isNested("[[][]]" ),
-                !s.isNested("" ),
-                !s.isNested("[[[[[[[[" ),
-                !s.isNested("]]]]]]]]" )
-        );
-        if (correct.contains(false)) {
-            throw new AssertionError();
-        }
+        assertEquals(expected, s.isNested(input));
     }
 }

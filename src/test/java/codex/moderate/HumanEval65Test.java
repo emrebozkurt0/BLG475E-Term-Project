@@ -1,23 +1,21 @@
 package codex.moderate;
 
-import java.util.*;
-import java.lang.*;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class HumanEval65Test {
-    @Test
-    public void testSolution() {
+    @ParameterizedTest
+    @CsvSource({
+            "100, 2, 001",
+            "12, 2, 12",
+            "97, 8, 79",
+            "12, 1, 21",
+            "11, 101, 11"
+    })
+    public void testCircularShift(int input, int shift, String expected) {
         HumanEval_65 s = new HumanEval_65();
-        List<Boolean> correct = Arrays.asList(
-                s.circularShift(100, 2).equals("001"),
-                s.circularShift(12, 2).equals("12"),
-                s.circularShift(97, 8).equals("79"),
-                s.circularShift(12, 1).equals("21"),
-                s.circularShift(11, 101).equals("11")
-        );
-        if (correct.contains(false)) {
-            throw new AssertionError();
-        }
+        assertEquals(expected, s.circularShift(input, shift));
     }
 }
