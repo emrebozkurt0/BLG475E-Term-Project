@@ -2,6 +2,7 @@ package gemini.moderate;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class HumanEval51Test {
 
@@ -29,5 +30,11 @@ public class HumanEval51Test {
         
         String exp7 = "ybcd"; String in7 = "ybcd";
         assertEquals(exp7, s.removeVowels(in7), "Should handle string with no vowels");
+
+        // Mutated base tests for Invalid Space & Symbolic borders
+        String exp8 = "123!@# \t"; String in8 = "1a2e3i!o@u# \t";
+        assertEquals(exp8, s.removeVowels(in8), "Should handle string with numbers and special symbols");
+
+        assertThrows(NullPointerException.class, () -> s.removeVowels(null), "Should throw NPE for invalid null input");
     }
 }

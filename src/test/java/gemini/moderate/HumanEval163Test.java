@@ -30,5 +30,12 @@ public class HumanEval163Test {
         int a5 = 3, b5 = 7;
         List<Integer> expectedOdd = Arrays.asList(4, 6);
         assertEquals(expectedOdd, s.generateIntegers(a5, b5), "Expected even integers for odd bounds");
+
+        // Mutated base tests
+        List<Integer> expBounds1 = Arrays.asList(2); int bnd1 = 2;
+        assertEquals(expBounds1, s.generateIntegers(bnd1, bnd1), "Exact boundary check 2 == 2");
+        
+        List<Integer> expBounds2 = Arrays.asList(8); int bnd2 = 8;
+        assertEquals(expBounds2, s.generateIntegers(bnd2, bnd2), "Exact boundary check 8 == 8");
     }
 }

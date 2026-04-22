@@ -17,7 +17,10 @@ public class HumanEval75Test {
         "10, false",
         "126, false",
         "729, false",
-        "891, false"
+        "891, false",
+        "1, false",   // Mutated edge case
+        "0, false",   // Mutated edge case
+        "-5, false"   // Mutated negative boundary
     })
     public void testIsMultiplyPrime(int input, boolean expected) {
         HumanEval75 s = new HumanEval75();

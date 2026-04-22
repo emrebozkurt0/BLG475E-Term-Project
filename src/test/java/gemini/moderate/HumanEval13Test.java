@@ -2,6 +2,7 @@ package gemini.moderate;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class HumanEval13Test {
     @Test
@@ -27,5 +28,12 @@ public class HumanEval13Test {
         
         int exp7 = 5, a7 = 5, b7 = 0;
         assertEquals(exp7, s.greatestCommonDivisor(a7, b7), "Expected GCD of 5 and 0 to be 5");
+        
+        // Mutated base tests for boundary/equivalence class coverage
+        int negA = -10, pB = 15;
+        assertThrows(StackOverflowError.class, () -> s.greatestCommonDivisor(negA, pB), "The generated code goes into infinite recursion for negative inputs");
+        
+        int expGcd2 = 0, zeroA = 0, zeroB = 0;
+        assertEquals(expGcd2, s.greatestCommonDivisor(zeroA, zeroB), "Expected GCD of 0 and 0 to handle properly");
     }
 }

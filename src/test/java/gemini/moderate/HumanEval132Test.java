@@ -27,6 +27,10 @@ public class HumanEval132Test {
         assertFalse(s.isNested(""), "Expected empty string not to be nested");
         assertFalse(s.isNested("]]]]]]]]"), "Expected ]]]]]]]] not to be nested");
 
+        // Mutated base test for spaces inside bracket
+        assertFalse(s.isNested("[ ]"), "Expected empty string with space inside brackets not to be nested");
+        assertTrue(s.isNested("[[ ]]"), "Expected [[ ]] with space to be nested");
+
         // Strings with other characters
         assertTrue(s.isNested("a[b[c]d]e"), "Expected a[b[c]d]e to be nested");
         assertFalse(s.isNested("a[b]c"), "Expected a[b]c not to be nested");

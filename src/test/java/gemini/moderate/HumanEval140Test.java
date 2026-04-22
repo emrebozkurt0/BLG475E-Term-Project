@@ -23,5 +23,8 @@ public class HumanEval140Test {
         // Multiple spaces at end
         assertEquals("abc-", s.fixSpaces("abc   "), "Expected multiple trailing spaces to be replaced by a hyphen");
         assertEquals("-", s.fixSpaces("   "), "Expected a string containing only multiple spaces to be combined into a hyphen");
+
+        // Mutated base tests
+        assertEquals("_Example_", s.fixSpaces(" Example "), "Boundary check for single leading and single trailing space");
     }
 }

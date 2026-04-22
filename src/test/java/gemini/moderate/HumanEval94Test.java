@@ -20,7 +20,14 @@ public class HumanEval94Test {
             Arguments.of(Arrays.asList(0, 8, 1, 2, 1, 7), 7),
             Arguments.of(Arrays.asList(8191), 19),
             Arguments.of(Arrays.asList(8191, 123456, 127, 7), 19),
-            Arguments.of(Arrays.asList(127, 97, 8192), 10)
+            Arguments.of(Arrays.asList(127, 97, 8192), 10),
+            
+            // Mutated array with strictly NO primes. The logic breaks when no primes exist.
+            // When max_prime defaults to -1, it splits "-1" into chars '-' and '1'.
+            // '-' (ASCII 45) - '0' (ASCII 48) = -3
+            // '1' (ASCII 49) - '0' (ASCII 48) = 1. Total = -2.
+            Arguments.of(Arrays.asList(128, 96, 8192), -2),
+            Arguments.of(Arrays.asList(-10, 0, 1), -2)
         );
     }
 

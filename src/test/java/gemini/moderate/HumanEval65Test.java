@@ -23,5 +23,12 @@ public class HumanEval65Test {
         
         String exp5 = "11"; int x5 = 11, shift5 = 101;
         assertEquals(exp5, s.circularShift(x5, shift5), "Shift 11 by 101 should be 11");
+
+        // Mutated tests for shift boundaries
+        String exp6 = "12"; int x6 = 12, shift6 = 0;
+        assertEquals(exp6, s.circularShift(x6, shift6), "Shift by 0 should return string itself");
+        
+        String exp7 = "12"; int x7 = 12, shift7 = 2;
+        assertEquals(exp7, s.circularShift(x7, shift7), "Shift equal to length should act properly");
     }
 }
