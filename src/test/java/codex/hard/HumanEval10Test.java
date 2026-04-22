@@ -2,23 +2,44 @@ package codex.hard;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class HumanEval10Test {
+
     @Test
-    public void testSolution() {
-        HumanEval10 s = new HumanEval10();
-        List<Boolean> correct = Arrays.asList(
-                Objects.equals(s.makePalindrome(""), ""),
-                Objects.equals(s.makePalindrome("x"), "x"),
-                Objects.equals(s.makePalindrome("xyz"), "xyzyx"),
-                Objects.equals(s.makePalindrome("xyx"), "xyx"),
-                Objects.equals(s.makePalindrome("jerry"), "jerryrrej")
-        );
-        if (correct.contains(false)) {
-            throw new AssertionError();
-        }
+    public void makePalindrome_returnsSameForEmptyString() {
+        HumanEval10 solution = new HumanEval10();
+        assertEquals("", solution.makePalindrome(""));
+    }
+
+    @Test
+    public void makePalindrome_returnsSameForSingleCharacter() {
+        HumanEval10 solution = new HumanEval10();
+        assertEquals("x", solution.makePalindrome("x"));
+    }
+
+    @Test
+    public void makePalindrome_buildsExpectedForNonPalindrome() {
+        HumanEval10 solution = new HumanEval10();
+        String result = solution.makePalindrome("xyz");
+
+        assertEquals("xyzyx", result);
+        assertTrue(solution.isPalindrome(result));
+    }
+
+    @Test
+    public void makePalindrome_keepsExistingPalindromeUnchanged() {
+        HumanEval10 solution = new HumanEval10();
+        assertEquals("xyx", solution.makePalindrome("xyx"));
+    }
+
+    @Test
+    public void makePalindrome_appendsShortestSuffixForTypicalInput() {
+        HumanEval10 solution = new HumanEval10();
+        String result = solution.makePalindrome("jerry");
+
+        assertEquals("jerryrrej", result);
+        assertTrue(solution.isPalindrome(result));
     }
 }
