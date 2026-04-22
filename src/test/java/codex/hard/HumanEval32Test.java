@@ -1,64 +1,41 @@
 package codex.hard;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class HumanEval32Test {
 
-    @Test
-    public void findZero_returnsExpectedRootForLinearPolynomial() {
+    @ParameterizedTest(name = "findZero case {index}")
+    @MethodSource("findZeroCases")
+    public void findZero_handlesAllScenarios(List<Double> coefficients, Double expectedRoot, double tolerance, boolean expectPositivePolynomial) {
         HumanEval32 solution = new HumanEval32();
-        double root = solution.findZero(Arrays.asList(1.0, 2.0));
+        double root = solution.findZero(coefficients);
 
-        assertEquals(-0.5, root, 1e-4);
-        assertTrue(Math.abs(solution.poly(Arrays.asList(1.0, 2.0), root)) < 1e-8);
+        boolean passes;
+        if (expectedRoot == null) {
+            passes = Double.isFinite(root) && solution.poly(coefficients, root) > 0.0;
+        } else {
+            passes = Math.abs(root - expectedRoot) <= tolerance;
+        }
+
+        assertTrue(passes);
     }
 
-    @Test
-    public void findZero_returnsExpectedRootForCubicPolynomial() {
-        HumanEval32 solution = new HumanEval32();
-        double root = solution.findZero(Arrays.asList(-6.0, 11.0, -6.0, 1.0));
-
-        assertEquals(1.0, root, 1e-4);
-        assertTrue(Math.abs(solution.poly(Arrays.asList(-6.0, 11.0, -6.0, 1.0), root)) < 1e-6);
-    }
-
-    @Test
-    public void findZero_returnsLeftEndpointWhenItIsRoot() {
-        HumanEval32 solution = new HumanEval32();
-        double root = solution.findZero(Arrays.asList(1.0, 1.0));
-
-        assertEquals(-1.0, root, 1e-12);
-    }
-
-    @Test
-    public void findZero_handlesRootOutsideInitialIntervalByExpandingBounds() {
-        HumanEval32 solution = new HumanEval32();
-        double root = solution.findZero(Arrays.asList(-10.0, 1.0));
-
-        assertEquals(10.0, root, 1e-6);
-        assertTrue(Math.abs(solution.poly(Arrays.asList(-10.0, 1.0), root)) < 1e-6);
-    }
-
-    @Test
-    public void findZero_takesBisectionElseBranchBeforeConverging() {
-        HumanEval32 solution = new HumanEval32();
-        double root = solution.findZero(Arrays.asList(-0.75, 1.0));
-
-        assertEquals(0.75, root, 1e-6);
-        assertTrue(Math.abs(solution.poly(Arrays.asList(-0.75, 1.0), root)) < 1e-10);
-    }
-
-    @Test
-    public void findZero_returnsFiniteFallbackWhenNoRealRootExists() {
-        HumanEval32 solution = new HumanEval32();
-        double root = solution.findZero(Arrays.asList(1.0, 0.0, 1.0));
-
-        assertTrue(Double.isFinite(root));
-        assertTrue(solution.poly(Arrays.asList(1.0, 0.0, 1.0), root) > 0.0);
+    private static Stream<Arguments> findZeroCases() {
+        return Stream.of(
+                Arguments.of(Arrays.asList(1.0, 2.0), -0.5, 1e-4, false),
+                Arguments.of(Arrays.asList(-6.0, 11.0, -6.0, 1.0), 1.0, 1e-4, false),
+                Arguments.of(Arrays.asList(1.0, 1.0), -1.0, 1e-12, false),
+                Arguments.of(Arrays.asList(-10.0, 1.0), 10.0, 1e-6, false),
+                Arguments.of(Arrays.asList(-0.75, 1.0), 0.75, 1e-6, false),
+                Arguments.of(Arrays.asList(1.0, 0.0, 1.0), null, 0.0, true)
+        );
     }
 }

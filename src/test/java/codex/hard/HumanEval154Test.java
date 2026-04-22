@@ -1,44 +1,33 @@
 package codex.hard;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.Arrays;
+import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HumanEval154Test {
 
-    @Test
-    public void cycpatternCheck_matchesReferenceExamples() {
+    @ParameterizedTest(name = "cycpatternCheck case {index}")
+    @MethodSource("cycpatternCases")
+    public void cycpatternCheck_returnsExpectedResult(String a, String b, boolean expected) {
         HumanEval154 solution = new HumanEval154();
-
-        assertFalse(solution.cycpatternCheck("xyzw", "xyw"));
-        assertTrue(solution.cycpatternCheck("yello", "ell"));
-        assertFalse(solution.cycpatternCheck("whattup", "ptut"));
-        assertTrue(solution.cycpatternCheck("efef", "fee"));
-        assertFalse(solution.cycpatternCheck("abab", "aabb"));
-        assertTrue(solution.cycpatternCheck("winemtt", "tinem"));
+        assertEquals(expected, solution.cycpatternCheck(a, b));
     }
 
-    @Test
-    public void cycpatternCheck_returnsTrueForEmptyPattern() {
-        HumanEval154 solution = new HumanEval154();
-
-        assertTrue(solution.cycpatternCheck("anything", ""));
-    }
-
-    @Test
-    public void cycpatternCheck_returnsFalseWhenSourceShorterThanPattern() {
-        HumanEval154 solution = new HumanEval154();
-
-        assertFalse(solution.cycpatternCheck("ab", "abcd"));
-    }
-
-    @Test
-    public void cycpatternCheck_findsRotationNotAtInitialOffset() {
-        HumanEval154 solution = new HumanEval154();
-
-        assertTrue(solution.cycpatternCheck("zzcabyy", "abc"));
+    private static Stream<Arguments> cycpatternCases() {
+        return Stream.of(
+                Arguments.of("xyzw", "xyw", false),
+                Arguments.of("yello", "ell", true),
+                Arguments.of("whattup", "ptut", false),
+                Arguments.of("efef", "fee", true),
+                Arguments.of("abab", "aabb", false),
+                Arguments.of("winemtt", "tinem", true),
+                Arguments.of("anything", "", true),
+                Arguments.of("ab", "abcd", false),
+                Arguments.of("zzcabyy", "abc", true)
+        );
     }
 }

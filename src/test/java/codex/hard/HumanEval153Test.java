@@ -1,40 +1,37 @@
 package codex.hard;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HumanEval153Test {
 
-    @Test
-    public void strongestExtension_matchesReferenceExamples() {
+    @ParameterizedTest(name = "StrongestExtension case {index}")
+    @MethodSource("strongestExtensionCases")
+    public void strongestExtension_returnsExpectedValue(String className, List<String> extensions, String expected) {
         HumanEval153 solution = new HumanEval153();
-
-        assertEquals("Watashi.eIGHt8OKe", solution.StrongestExtension("Watashi", Arrays.asList("tEN", "niNE", "eIGHt8OKe")));
-        assertEquals("Boku123.YEs.WeCaNe", solution.StrongestExtension("Boku123", Arrays.asList("nani", "NazeDa", "YEs.WeCaNe", "32145tggg")));
-        assertEquals("__YESIMHERE.NuLl__", solution.StrongestExtension("__YESIMHERE", Arrays.asList("t", "eMptY", "nothing", "zeR00", "NuLl__", "123NoooneB321")));
-        assertEquals("K.TAR", solution.StrongestExtension("K", Arrays.asList("Ta", "TAR", "t234An", "cosSo")));
-        assertEquals("__HAHA.123", solution.StrongestExtension("__HAHA", Arrays.asList("Tab", "123", "781345", "-_-")));
-        assertEquals("YameRore.okIWILL123", solution.StrongestExtension("YameRore", Arrays.asList("HhAas", "okIWILL123", "WorkOut", "Fails", "-_-")));
-        assertEquals("finNNalLLly.WoW", solution.StrongestExtension("finNNalLLly", Arrays.asList("Die", "NowW", "Wow", "WoW")));
-        assertEquals("_.Bb", solution.StrongestExtension("_", Arrays.asList("Bb", "91245")));
-        assertEquals("Sp.671235", solution.StrongestExtension("Sp", Arrays.asList("671235", "Bb")));
+        assertEquals(expected, solution.StrongestExtension(className, extensions));
     }
 
-    @Test
-    public void strongestExtension_keepsFirstWhenStrengthsTie() {
-        HumanEval153 solution = new HumanEval153();
-
-        assertEquals("C.Ab", solution.StrongestExtension("C", Arrays.asList("Ab", "aB", "Zz")));
-    }
-
-    @Test
-    public void strongestExtension_handlesSingleExtensionList() {
-        HumanEval153 solution = new HumanEval153();
-
-        assertEquals("Only.Ext", solution.StrongestExtension("Only", List.of("Ext")));
+    private static Stream<Arguments> strongestExtensionCases() {
+        return Stream.of(
+                Arguments.of("Watashi", Arrays.asList("tEN", "niNE", "eIGHt8OKe"), "Watashi.eIGHt8OKe"),
+                Arguments.of("Boku123", Arrays.asList("nani", "NazeDa", "YEs.WeCaNe", "32145tggg"), "Boku123.YEs.WeCaNe"),
+                Arguments.of("__YESIMHERE", Arrays.asList("t", "eMptY", "nothing", "zeR00", "NuLl__", "123NoooneB321"), "__YESIMHERE.NuLl__"),
+                Arguments.of("K", Arrays.asList("Ta", "TAR", "t234An", "cosSo"), "K.TAR"),
+                Arguments.of("__HAHA", Arrays.asList("Tab", "123", "781345", "-_-"), "__HAHA.123"),
+                Arguments.of("YameRore", Arrays.asList("HhAas", "okIWILL123", "WorkOut", "Fails", "-_-"), "YameRore.okIWILL123"),
+                Arguments.of("finNNalLLly", Arrays.asList("Die", "NowW", "Wow", "WoW"), "finNNalLLly.WoW"),
+                Arguments.of("_", Arrays.asList("Bb", "91245"), "_.Bb"),
+                Arguments.of("Sp", Arrays.asList("671235", "Bb"), "Sp.671235"),
+                Arguments.of("C", Arrays.asList("Ab", "aB", "Zz"), "C.Ab"),
+                Arguments.of("Only", List.of("Ext"), "Only.Ext")
+        );
     }
 }

@@ -1,39 +1,33 @@
 package codex.hard;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HumanEval46Test {
 
-    @Test
-    public void fib4_returnsZeroForDefinedZeroCases() {
+    @ParameterizedTest(name = "fib4({0}) -> {1}")
+    @MethodSource("fib4Cases")
+    public void fib4_returnsExpectedValues(int n, int expected) {
         HumanEval46 solution = new HumanEval46();
-
-        assertEquals(0, solution.fib4(0));
-        assertEquals(0, solution.fib4(1));
-        assertEquals(0, solution.fib4(3));
+        assertEquals(expected, solution.fib4(n));
     }
 
-    @Test
-    public void fib4_returnsTwoForSecondIndex() {
-        HumanEval46 solution = new HumanEval46();
-        assertEquals(2, solution.fib4(2));
-    }
-
-    @Test
-    public void fib4_computesCorrectValueAtLoopBoundary() {
-        HumanEval46 solution = new HumanEval46();
-        assertEquals(2, solution.fib4(4));
-    }
-
-    @Test
-    public void fib4_computesKnownValuesForLargerInputs() {
-        HumanEval46 solution = new HumanEval46();
-
-        assertEquals(4, solution.fib4(5));
-        assertEquals(28, solution.fib4(8));
-        assertEquals(104, solution.fib4(10));
-        assertEquals(386, solution.fib4(12));
+    private static Stream<Arguments> fib4Cases() {
+        return Stream.of(
+                Arguments.of(0, 0),
+                Arguments.of(1, 0),
+                Arguments.of(2, 2),
+                Arguments.of(3, 0),
+                Arguments.of(4, 2),
+                Arguments.of(5, 4),
+                Arguments.of(8, 28),
+                Arguments.of(10, 104),
+                Arguments.of(12, 386)
+        );
     }
 }

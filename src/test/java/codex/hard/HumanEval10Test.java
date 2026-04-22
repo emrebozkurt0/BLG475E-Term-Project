@@ -1,45 +1,29 @@
 package codex.hard;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class HumanEval10Test {
 
-    @Test
-    public void makePalindrome_returnsSameForEmptyString() {
+    @ParameterizedTest(name = "makePalindrome({0}) -> {1}")
+    @MethodSource("makePalindromeCases")
+    public void makePalindrome_returnsExpectedValue(String input, String expected) {
         HumanEval10 solution = new HumanEval10();
-        assertEquals("", solution.makePalindrome(""));
+        assertEquals(expected, solution.makePalindrome(input));
     }
 
-    @Test
-    public void makePalindrome_returnsSameForSingleCharacter() {
-        HumanEval10 solution = new HumanEval10();
-        assertEquals("x", solution.makePalindrome("x"));
-    }
-
-    @Test
-    public void makePalindrome_buildsExpectedForNonPalindrome() {
-        HumanEval10 solution = new HumanEval10();
-        String result = solution.makePalindrome("xyz");
-
-        assertEquals("xyzyx", result);
-        assertTrue(solution.isPalindrome(result));
-    }
-
-    @Test
-    public void makePalindrome_keepsExistingPalindromeUnchanged() {
-        HumanEval10 solution = new HumanEval10();
-        assertEquals("xyx", solution.makePalindrome("xyx"));
-    }
-
-    @Test
-    public void makePalindrome_appendsShortestSuffixForTypicalInput() {
-        HumanEval10 solution = new HumanEval10();
-        String result = solution.makePalindrome("jerry");
-
-        assertEquals("jerryrrej", result);
-        assertTrue(solution.isPalindrome(result));
+    private static Stream<Arguments> makePalindromeCases() {
+        return Stream.of(
+                Arguments.of("", ""),
+                Arguments.of("x", "x"),
+                Arguments.of("xyz", "xyzyx"),
+                Arguments.of("xyx", "xyx"),
+                Arguments.of("jerry", "jerryrrej")
+        );
     }
 }

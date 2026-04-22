@@ -1,56 +1,48 @@
 package codex.hard;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HumanEval160Test {
 
-    @Test
-    public void doAlgebra_matchesReferenceExamples() {
+    @ParameterizedTest(name = "doAlgebra case {index}")
+    @MethodSource("doAlgebraCases")
+    public void doAlgebra_returnsExpectedValue(List<String> operators, List<Integer> operands, int expected) {
         HumanEval160 solution = new HumanEval160();
-
-        assertEquals(37, solution.doAlgebra(new ArrayList<>(Arrays.asList("**", "*", "+")), new ArrayList<>(Arrays.asList(2, 3, 4, 5))));
-        assertEquals(9, solution.doAlgebra(new ArrayList<>(Arrays.asList("+", "*", "-")), new ArrayList<>(Arrays.asList(2, 3, 4, 5))));
-        assertEquals(8, solution.doAlgebra(new ArrayList<>(Arrays.asList("/", "*")), new ArrayList<>(Arrays.asList(7, 3, 4))));
-        assertEquals(1953132, solution.doAlgebra(new ArrayList<>(Arrays.asList("+", "**", "**")), new ArrayList<>(Arrays.asList(7, 5, 3, 2))));
+        assertEquals(expected, solution.doAlgebra(new ArrayList<>(operators), new ArrayList<>(operands)));
     }
 
-    @Test
-    public void doAlgebra_skipsOperatorLoopsWhenNoOperatorsExist() {
-        HumanEval160 solution = new HumanEval160();
-
-        assertEquals(42, solution.doAlgebra(new ArrayList<>(), new ArrayList<>(Arrays.asList(42))));
+    private static Stream<Arguments> doAlgebraCases() {
+        return Stream.of(
+                Arguments.of(ops("**", "*", "+"), nums(2, 3, 4, 5), 37),
+                Arguments.of(ops("+", "*", "-"), nums(2, 3, 4, 5), 9),
+                Arguments.of(ops("/", "*"), nums(7, 3, 4), 8),
+                Arguments.of(ops("+", "**", "**"), nums(7, 5, 3, 2), 1953132),
+                Arguments.of(ops(), nums(42), 42),
+                Arguments.of(ops("*", "/"), nums(10, 3, 2), 15),
+                Arguments.of(ops("-", "+", "-"), nums(10, 3, 2, 5), 4),
+                Arguments.of(ops("+", "**"), nums(8, 3, 2), 17),
+                Arguments.of(ops("%"), nums(9, 4), 9)
+        );
     }
 
-    @Test
-    public void doAlgebra_appliesMultiplicationAndDivisionLeftToRight() {
-        HumanEval160 solution = new HumanEval160();
-
-        assertEquals(15, solution.doAlgebra(new ArrayList<>(Arrays.asList("*", "/")), new ArrayList<>(Arrays.asList(10, 3, 2))));
+    private static List<String> ops(String... values) {
+        return Arrays.asList(values);
     }
 
-    @Test
-    public void doAlgebra_appliesAdditionAndSubtractionLeftToRight() {
-        HumanEval160 solution = new HumanEval160();
-
-        assertEquals(4, solution.doAlgebra(new ArrayList<>(Arrays.asList("-", "+", "-")), new ArrayList<>(Arrays.asList(10, 3, 2, 5))));
-    }
-
-    @Test
-    public void doAlgebra_handlesExponentiationBeforeOtherOperators() {
-        HumanEval160 solution = new HumanEval160();
-
-        assertEquals(17, solution.doAlgebra(new ArrayList<>(Arrays.asList("+", "**")), new ArrayList<>(Arrays.asList(8, 3, 2))));
-    }
-
-    @Test
-    public void doAlgebra_leavesValueWhenUnsupportedOperatorReachesFinalPass() {
-        HumanEval160 solution = new HumanEval160();
-
-        assertEquals(9, solution.doAlgebra(new ArrayList<>(Arrays.asList("%")), new ArrayList<>(Arrays.asList(9, 4))));
+    private static List<Integer> nums(int... values) {
+        List<Integer> result = new ArrayList<>();
+        for (int value : values) {
+            result.add(value);
+        }
+        return result;
     }
 }

@@ -1,48 +1,39 @@
 package codex.hard;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HumanEval158Test {
 
-    @Test
-    public void findMax_matchesReferenceExamples() {
+    @ParameterizedTest(name = "findMax case {index}")
+    @MethodSource("findMaxCases")
+    public void findMax_returnsExpectedWord(List<String> words, String expected) {
         HumanEval158 solution = new HumanEval158();
-
-        assertEquals("string", solution.findMax(Arrays.asList("name", "of", "string")));
-        assertEquals("enam", solution.findMax(Arrays.asList("name", "enam", "game")));
-        assertEquals("aaaaaaa", solution.findMax(Arrays.asList("aaaaaaa", "bb", "cc")));
-        assertEquals("abc", solution.findMax(Arrays.asList("abc", "cba")));
-        assertEquals("footbott", solution.findMax(Arrays.asList("play", "this", "game", "of", "footbott")));
-        assertEquals("gonna", solution.findMax(Arrays.asList("we", "are", "gonna", "rock")));
-        assertEquals("nation", solution.findMax(Arrays.asList("we", "are", "a", "mad", "nation")));
-        assertEquals("this", solution.findMax(Arrays.asList("this", "is", "a", "prrk")));
-        assertEquals("b", solution.findMax(Arrays.asList("b")));
-        assertEquals("play", solution.findMax(Arrays.asList("play", "play", "play")));
+        assertEquals(expected, solution.findMax(words));
     }
 
-    @Test
-    public void findMax_prefersHigherUniqueCharacterCount() {
-        HumanEval158 solution = new HumanEval158();
-
-        assertEquals("abcd", solution.findMax(Arrays.asList("aaaa", "abcd", "ab")));
-    }
-
-    @Test
-    public void findMax_breaksTieLexicographically() {
-        HumanEval158 solution = new HumanEval158();
-
-        assertEquals("ab", solution.findMax(Arrays.asList("ba", "ab")));
-    }
-
-    @Test
-    public void findMax_handlesSingleWord() {
-        HumanEval158 solution = new HumanEval158();
-
-        assertEquals("solo", solution.findMax(List.of("solo")));
+    private static Stream<Arguments> findMaxCases() {
+        return Stream.of(
+                Arguments.of(Arrays.asList("name", "of", "string"), "string"),
+                Arguments.of(Arrays.asList("name", "enam", "game"), "enam"),
+                Arguments.of(Arrays.asList("aaaaaaa", "bb", "cc"), "aaaaaaa"),
+                Arguments.of(Arrays.asList("abc", "cba"), "abc"),
+                Arguments.of(Arrays.asList("play", "this", "game", "of", "footbott"), "footbott"),
+                Arguments.of(Arrays.asList("we", "are", "gonna", "rock"), "gonna"),
+                Arguments.of(Arrays.asList("we", "are", "a", "mad", "nation"), "nation"),
+                Arguments.of(Arrays.asList("this", "is", "a", "prrk"), "this"),
+                Arguments.of(Arrays.asList("b"), "b"),
+                Arguments.of(Arrays.asList("play", "play", "play"), "play"),
+                Arguments.of(Arrays.asList("aaaa", "abcd", "ab"), "abcd"),
+                Arguments.of(Arrays.asList("ba", "ab"), "ab"),
+                Arguments.of(List.of("solo"), "solo")
+        );
     }
 }

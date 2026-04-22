@@ -1,76 +1,55 @@
 package codex.hard;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HumanEval124Test {
 
-    @Test
-    public void validDate_rejectsNullEmptyAndWrongStructure() {
+    @ParameterizedTest(name = "validDate case {index}")
+    @MethodSource("validDateCases")
+    public void validDate_returnsExpectedResult(String date, boolean expected) {
         HumanEval124 solution = new HumanEval124();
-
-        assertFalse(solution.validDate(null));
-        assertFalse(solution.validDate(""));
-        assertFalse(solution.validDate("06/04/2020"));
-        assertFalse(solution.validDate("04122003"));
-        assertFalse(solution.validDate("20030412"));
-        assertFalse(solution.validDate("2003-04"));
-        assertFalse(solution.validDate("2003-04-12"));
-        assertFalse(solution.validDate("04-2003"));
+        assertEquals(expected, solution.validDate(date));
     }
 
-    @Test
-    public void validDate_rejectsInvalidTokenLengthsAndNonNumericParts() {
-        HumanEval124 solution = new HumanEval124();
-
-        assertFalse(solution.validDate("4-12-2003"));
-        assertFalse(solution.validDate("04-1-2003"));
-        assertFalse(solution.validDate("04-12-203"));
-        assertFalse(solution.validDate("aa-12-2003"));
-        assertFalse(solution.validDate("04-bb-2003"));
-        assertFalse(solution.validDate("04-12-zzzz"));
-    }
-
-    @Test
-    public void validDate_rejectsOutOfRangeMonthAndDayValues() {
-        HumanEval124 solution = new HumanEval124();
-
-        assertFalse(solution.validDate("00-10-2000"));
-        assertFalse(solution.validDate("13-10-2000"));
-        assertFalse(solution.validDate("04-00-2000"));
-        assertFalse(solution.validDate("03-32-2011"));
-        assertFalse(solution.validDate("21-31-2000"));
-    }
-
-    @Test
-    public void validDate_handlesFebruaryBranch() {
-        HumanEval124 solution = new HumanEval124();
-
-        assertTrue(solution.validDate("02-29-2020"));
-        assertFalse(solution.validDate("02-30-2020"));
-    }
-
-    @Test
-    public void validDate_handlesThirtyDayMonths() {
-        HumanEval124 solution = new HumanEval124();
-
-        assertTrue(solution.validDate("04-12-2003"));
-        assertTrue(solution.validDate("06-04-2020"));
-        assertTrue(solution.validDate("09-30-2001"));
-        assertTrue(solution.validDate("11-30-2001"));
-        assertTrue(solution.validDate("06-06-2005"));
-        assertFalse(solution.validDate("04-31-3000"));
-        assertFalse(solution.validDate("09-31-3000"));
-        assertFalse(solution.validDate("11-31-3000"));
-    }
-
-    @Test
-    public void validDate_handlesThirtyOneDayMonths() {
-        HumanEval124 solution = new HumanEval124();
-
-        assertTrue(solution.validDate("03-11-2000"));
-        assertFalse(solution.validDate("03-32-2000"));
+    private static Stream<Arguments> validDateCases() {
+        return Stream.of(
+                Arguments.of((String) null, false),
+                Arguments.of("", false),
+                Arguments.of("06/04/2020", false),
+                Arguments.of("04122003", false),
+                Arguments.of("20030412", false),
+                Arguments.of("2003-04", false),
+                Arguments.of("2003-04-12", false),
+                Arguments.of("04-2003", false),
+                Arguments.of("4-12-2003", false),
+                Arguments.of("04-1-2003", false),
+                Arguments.of("04-12-203", false),
+                Arguments.of("aa-12-2003", false),
+                Arguments.of("04-bb-2003", false),
+                Arguments.of("04-12-zzzz", false),
+                Arguments.of("00-10-2000", false),
+                Arguments.of("13-10-2000", false),
+                Arguments.of("04-00-2000", false),
+                Arguments.of("03-32-2011", false),
+                Arguments.of("21-31-2000", false),
+                Arguments.of("02-29-2020", true),
+                Arguments.of("02-30-2020", false),
+                Arguments.of("04-12-2003", true),
+                Arguments.of("06-04-2020", true),
+                Arguments.of("09-30-2001", true),
+                Arguments.of("11-30-2001", true),
+                Arguments.of("06-06-2005", true),
+                Arguments.of("04-31-3000", false),
+                Arguments.of("09-31-3000", false),
+                Arguments.of("11-31-3000", false),
+                Arguments.of("03-11-2000", true),
+                Arguments.of("03-32-2000", false)
+        );
     }
 }
