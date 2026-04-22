@@ -8,18 +8,24 @@ public class HumanEval32Test {
     @Test
     public void testPoly() {
         HumanEval32 s = new HumanEval32();
-        assertEquals(0.0, s.poly(Arrays.asList(1.0, 2.0), -0.5), 1e-4);
+        java.util.List<Double> coeffs = Arrays.asList(1.0, 2.0);
+        double x = -0.5;
+        double expected = 0.0;
+        double tolerance = 1e-4;
+        assertEquals(expected, s.poly(coeffs, x), tolerance, "poly([1.0, 2.0], -0.5) should be 0.0");
     }
 
     @Test
-    public void testFindZero1() {
+    public void testFindZero() {
         HumanEval32 s = new HumanEval32();
-        assertEquals(-0.5, s.findZero(Arrays.asList(1.0, 2.0)), 1e-4);
-    }
-
-    @Test
-    public void testFindZero2() {
-        HumanEval32 s = new HumanEval32();
-        assertEquals(1.0, s.findZero(Arrays.asList(-6.0, 11.0, -6.0, 1.0)), 1e-4);
+        double tolerance = 1e-4;
+        
+        java.util.List<Double> coeffs1 = Arrays.asList(1.0, 2.0);
+        double expected1 = -0.5;
+        assertEquals(expected1, s.findZero(coeffs1), tolerance, "findZero([1.0, 2.0]) should be -0.5");
+        
+        java.util.List<Double> coeffs2 = Arrays.asList(-6.0, 11.0, -6.0, 1.0);
+        double expected2 = 1.0;
+        assertEquals(expected2, s.findZero(coeffs2), tolerance, "findZero([-6.0, 11.0, -6.0, 1.0]) should be 1.0");
     }
 }

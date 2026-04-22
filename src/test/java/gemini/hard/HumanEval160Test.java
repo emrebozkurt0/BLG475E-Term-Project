@@ -7,56 +7,37 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HumanEval160Test {
     @Test
-    public void testDoAlgebra1() {
+    public void testDoAlgebraAll() {
         HumanEval160 s = new HumanEval160();
-        assertEquals(37, s.doAlgebra(
-            new ArrayList<>(Arrays.asList("**", "*", "+")), 
-            new ArrayList<>(Arrays.asList(2, 3, 4, 5))
-        ));
-    }
 
-    @Test
-    public void testDoAlgebra2() {
-        HumanEval160 s = new HumanEval160();
-        assertEquals(9, s.doAlgebra(
-            new ArrayList<>(Arrays.asList("+", "*", "-")), 
-            new ArrayList<>(Arrays.asList(2, 3, 4, 5))
-        ));
-    }
+        int expected1 = 37;
+        ArrayList<String> ops1 = new ArrayList<>(Arrays.asList("**", "*", "+"));
+        ArrayList<Integer> nums1 = new ArrayList<>(Arrays.asList(2, 3, 4, 5));
+        assertEquals(expected1, s.doAlgebra(ops1, nums1), "doAlgebra test 1 failed");
 
-    @Test
-    public void testDoAlgebra3() {
-        HumanEval160 s = new HumanEval160();
-        assertEquals(8, s.doAlgebra(
-            new ArrayList<>(Arrays.asList("/", "*")), 
-            new ArrayList<>(Arrays.asList(7, 3, 4))
-        ));
-    }
+        int expected2 = 9;
+        ArrayList<String> ops2 = new ArrayList<>(Arrays.asList("+", "*", "-"));
+        ArrayList<Integer> nums2 = new ArrayList<>(Arrays.asList(2, 3, 4, 5));
+        assertEquals(expected2, s.doAlgebra(ops2, nums2), "doAlgebra test 2 failed");
 
-    @Test
-    public void testDoAlgebra4() {
-        HumanEval160 s = new HumanEval160();
-        assertEquals(1953132, s.doAlgebra(
-            new ArrayList<>(Arrays.asList("+", "**", "**")), 
-            new ArrayList<>(Arrays.asList(7, 5, 3, 2))
-        ));
-    }
+        int expected3 = 8;
+        ArrayList<String> ops3 = new ArrayList<>(Arrays.asList("/", "*"));
+        ArrayList<Integer> nums3 = new ArrayList<>(Arrays.asList(7, 3, 4));
+        assertEquals(expected3, s.doAlgebra(ops3, nums3), "doAlgebra test 3 failed");
 
-    @Test
-    public void testDoAlgebraFloorDivision() {
-        HumanEval160 s = new HumanEval160();
-        assertEquals(2, s.doAlgebra(
-            new ArrayList<>(Arrays.asList("//")), 
-            new ArrayList<>(Arrays.asList(7, 3))
-        ));
-    }
+        int expected4 = 1953132;
+        ArrayList<String> ops4 = new ArrayList<>(Arrays.asList("+", "**", "**"));
+        ArrayList<Integer> nums4 = new ArrayList<>(Arrays.asList(7, 5, 3, 2));
+        assertEquals(expected4, s.doAlgebra(ops4, nums4), "doAlgebra test 4 failed");
 
-    @Test
-    public void testDoAlgebraInvalidOperator() {
-        HumanEval160 s = new HumanEval160();
-        assertEquals(2, s.doAlgebra(
-            new ArrayList<>(Arrays.asList("?")), 
-            new ArrayList<>(Arrays.asList(2, 3))
-        ));
+        int expectedFloorDiv = 2;
+        ArrayList<String> opsFloorDiv = new ArrayList<>(Arrays.asList("//"));
+        ArrayList<Integer> numsFloorDiv = new ArrayList<>(Arrays.asList(7, 3));
+        assertEquals(expectedFloorDiv, s.doAlgebra(opsFloorDiv, numsFloorDiv), "doAlgebra floor div failed");
+
+        int expectedInvalid = 2;
+        ArrayList<String> opsInvalid = new ArrayList<>(Arrays.asList("?"));
+        ArrayList<Integer> numsInvalid = new ArrayList<>(Arrays.asList(2, 3));
+        assertEquals(expectedInvalid, s.doAlgebra(opsInvalid, numsInvalid), "doAlgebra invalid op failed");
     }
 }

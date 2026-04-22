@@ -5,20 +5,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HumanEval46Test {
     @Test
-    public void testFib4BaseCases() {
+    public void testFib4() {
         HumanEval46 s = new HumanEval46();
-        assertEquals(0, s.fib4(0));
-        assertEquals(0, s.fib4(1));
-        assertEquals(2, s.fib4(2));
-        assertEquals(0, s.fib4(3));
-    }
+        int[] inputs = {0, 1, 2, 3, 5, 8, 10, 12};
+        int[] expectedOutputs = {0, 0, 2, 0, 4, 28, 104, 386};
 
-    @Test
-    public void testFib4Normal() {
-        HumanEval46 s = new HumanEval46();
-        assertEquals(4, s.fib4(5));
-        assertEquals(28, s.fib4(8));
-        assertEquals(104, s.fib4(10));
-        assertEquals(386, s.fib4(12));
+        for (int i = 0; i < inputs.length; i++) {
+            int input = inputs[i];
+            int expected = expectedOutputs[i];
+            assertEquals(expected, s.fib4(input), "fib4(" + input + ") should return " + expected);
+        }
     }
 }

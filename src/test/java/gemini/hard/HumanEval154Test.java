@@ -6,19 +6,30 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class HumanEval154Test {
     @Test
-    public void testCycpatternCheckTrue() {
+    public void testCycpatternCheck() {
         HumanEval154 s = new HumanEval154();
-        assertTrue(s.cycpatternCheck("yello", "ell"));
-        assertTrue(s.cycpatternCheck("efef", "fee"));
-        assertTrue(s.cycpatternCheck("winemtt", "tinem"));
-        assertTrue(s.cycpatternCheck("hello", "ell"));
-    }
 
-    @Test
-    public void testCycpatternCheckFalse() {
-        HumanEval154 s = new HumanEval154();
-        assertFalse(s.cycpatternCheck("xyzw", "xyw"));
-        assertFalse(s.cycpatternCheck("whattup", "ptut"));
-        assertFalse(s.cycpatternCheck("abab", "aabb"));
+        String[][] trueCases = {
+            {"yello", "ell"},
+            {"efef", "fee"},
+            {"winemtt", "tinem"},
+            {"hello", "ell"}
+        };
+
+        for (String[] tc : trueCases) {
+            assertTrue(s.cycpatternCheck(tc[0], tc[1]), 
+                "cycpatternCheck should return true for: " + tc[0] + ", " + tc[1]);
+        }
+
+        String[][] falseCases = {
+            {"xyzw", "xyw"},
+            {"whattup", "ptut"},
+            {"abab", "aabb"}
+        };
+
+        for (String[] fc : falseCases) {
+            assertFalse(s.cycpatternCheck(fc[0], fc[1]), 
+                "cycpatternCheck should return false for: " + fc[0] + ", " + fc[1]);
+        }
     }
 }
