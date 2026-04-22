@@ -1,24 +1,24 @@
 package gemini.hard;
 
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class HumanEval154Test {
     @Test
-    public void testSolution() {
+    public void testCycpatternCheckTrue() {
         HumanEval154 s = new HumanEval154();
-        List<Boolean> correct = Arrays.asList(
-                s.cycpatternCheck("xyzw", "xyw") == false,
-                s.cycpatternCheck("yello", "ell") == true,
-                s.cycpatternCheck("whattup", "ptut") == false,
-                s.cycpatternCheck("efef", "fee") == true,
-                s.cycpatternCheck("abab", "aabb") == false,
-                s.cycpatternCheck("winemtt", "tinem") == true
-        );
-        if (correct.contains(false)) {
-            throw new AssertionError();
-        }
+        assertTrue(s.cycpatternCheck("yello", "ell"));
+        assertTrue(s.cycpatternCheck("efef", "fee"));
+        assertTrue(s.cycpatternCheck("winemtt", "tinem"));
+        assertTrue(s.cycpatternCheck("hello", "ell"));
+    }
+
+    @Test
+    public void testCycpatternCheckFalse() {
+        HumanEval154 s = new HumanEval154();
+        assertFalse(s.cycpatternCheck("xyzw", "xyw"));
+        assertFalse(s.cycpatternCheck("whattup", "ptut"));
+        assertFalse(s.cycpatternCheck("abab", "aabb"));
     }
 }

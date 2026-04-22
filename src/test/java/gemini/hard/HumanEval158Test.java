@@ -1,29 +1,32 @@
 package gemini.hard;
 
 import org.junit.jupiter.api.Test;
-
 import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HumanEval158Test {
     @Test
-    public void testSolution() {
+    public void testFindMaxTieLexicographical() {
         HumanEval158 s = new HumanEval158();
-        List<Boolean> correct = Arrays.asList(
-                Objects.equals(s.findMax(Arrays.asList("name", "of", "string")), "string"),
-                Objects.equals(s.findMax(Arrays.asList("name", "enam", "game")), "enam"),
-                Objects.equals(s.findMax(Arrays.asList("aaaaaaa", "bb", "cc")), "aaaaaaa"),
-                Objects.equals(s.findMax(Arrays.asList("abc", "cba")), "abc"),
-                Objects.equals(s.findMax(Arrays.asList("play", "this", "game", "of", "footbott")), "footbott"),
-                Objects.equals(s.findMax(Arrays.asList("we", "are", "gonna", "rock")), "gonna"),
-                Objects.equals(s.findMax(Arrays.asList("we", "are", "a", "mad", "nation")), "nation"),
-                Objects.equals(s.findMax(Arrays.asList("this", "is", "a", "prrk")), "this"),
-                Objects.equals(s.findMax(Arrays.asList("b")), "b"),
-                Objects.equals(s.findMax(Arrays.asList("play", "play", "play")), "play")
-        );
-        if (correct.contains(false)) {
-            throw new AssertionError();
-        }
+        assertEquals("enam", s.findMax(Arrays.asList("name", "enam", "game")));
+        assertEquals("abc", s.findMax(Arrays.asList("abc", "cba")));
+    }
+
+    @Test
+    public void testFindMaxUnique() {
+        HumanEval158 s = new HumanEval158();
+        assertEquals("string", s.findMax(Arrays.asList("name", "of", "string")));
+        assertEquals("aaaaaaa", s.findMax(Arrays.asList("aaaaaaa", "bb", "cc")));
+        assertEquals("footbott", s.findMax(Arrays.asList("play", "this", "game", "of", "footbott")));
+    }
+
+    @Test
+    public void testFindMaxMisc() {
+        HumanEval158 s = new HumanEval158();
+        assertEquals("gonna", s.findMax(Arrays.asList("we", "are", "gonna", "rock")));
+        assertEquals("nation", s.findMax(Arrays.asList("we", "are", "a", "mad", "nation")));
+        assertEquals("this", s.findMax(Arrays.asList("this", "is", "a", "prrk")));
+        assertEquals("b", s.findMax(Arrays.asList("b")));
+        assertEquals("play", s.findMax(Arrays.asList("play", "play", "play")));
     }
 }

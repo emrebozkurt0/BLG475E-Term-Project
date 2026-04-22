@@ -1,22 +1,24 @@
 package gemini.hard;
 
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HumanEval46Test {
     @Test
-    public void testSolution() {
+    public void testFib4BaseCases() {
         HumanEval46 s = new HumanEval46();
-        List<Boolean> correct = Arrays.asList(
-                s.fib4(5) == 4,
-                s.fib4(8) == 28,
-                s.fib4(10) == 104,
-                s.fib4(12) == 386
-        );
-        if (correct.contains(false)) {
-            throw new AssertionError();
-        }
+        assertEquals(0, s.fib4(0));
+        assertEquals(0, s.fib4(1));
+        assertEquals(2, s.fib4(2));
+        assertEquals(0, s.fib4(3));
+    }
+
+    @Test
+    public void testFib4Normal() {
+        HumanEval46 s = new HumanEval46();
+        assertEquals(4, s.fib4(5));
+        assertEquals(28, s.fib4(8));
+        assertEquals(104, s.fib4(10));
+        assertEquals(386, s.fib4(12));
     }
 }

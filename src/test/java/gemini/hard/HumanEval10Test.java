@@ -1,23 +1,44 @@
 package gemini.hard;
 
 import org.junit.jupiter.api.Test;
-
-import java.util.*;
-import java.lang.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class HumanEval10Test {
     @Test
-    public void testSolution() {
+    public void testIsPalindrome() {
         HumanEval10 s = new HumanEval10();
-        List<Boolean> correct = Arrays.asList(
-                Objects.equals(s.makePalindrome(""), ""),
-                Objects.equals(s.makePalindrome("x"), "x"),
-                Objects.equals(s.makePalindrome("xyz"), "xyzyx"),
-                Objects.equals(s.makePalindrome("xyx"), "xyx"),
-                Objects.equals(s.makePalindrome("jerry"), "jerryrrej")
-        );
-        if (correct.contains(false)) {
-            throw new AssertionError();
-        }
+        assertTrue(s.isPalindrome(""));
+        assertTrue(s.isPalindrome("a"));
+        assertTrue(s.isPalindrome("aba"));
+        assertFalse(s.isPalindrome("ab"));
+    }
+
+    @Test
+    public void testMakePalindromeEmpty() {
+        HumanEval10 s = new HumanEval10();
+        assertEquals("", s.makePalindrome(""));
+        assertEquals("", s.makePalindrome(null));
+    }
+
+    @Test
+    public void testMakePalindromeBase() {
+        HumanEval10 s = new HumanEval10();
+        assertEquals("x", s.makePalindrome("x"));
+        assertEquals("xyzyx", s.makePalindrome("xyz"));
+        assertEquals("xyx", s.makePalindrome("xyx"));
+        assertEquals("jerryrrej", s.makePalindrome("jerry"));
+    }
+
+    @Test
+    public void testMakePalindromeUnreachableBranch() {
+        HumanEval10 s = new HumanEval10() {
+            @Override
+            public boolean isPalindrome(String string) {
+                return false;
+            }
+        };
+        assertEquals("abc", s.makePalindrome("abc"));
     }
 }
