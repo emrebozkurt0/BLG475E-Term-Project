@@ -24,6 +24,9 @@ public class HumanEval53Test {
         builder.add(Arguments.of(2, 3, 5));
         builder.add(Arguments.of(5, 7, 12));
         builder.add(Arguments.of(7, 5, 12));
+        // mutated base tests for negative numbers
+        builder.add(Arguments.of(-2, -3, -5));
+        builder.add(Arguments.of(-3, 2, -1));
         
         // Random parameters
         Random rand = new Random();
@@ -36,4 +39,5 @@ public class HumanEval53Test {
         }
         return builder.build();
     }
+
 }

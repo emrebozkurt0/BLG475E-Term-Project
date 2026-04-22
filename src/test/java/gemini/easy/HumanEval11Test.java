@@ -4,10 +4,16 @@ import org.junit.jupiter.params.provider.CsvSource;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 public class HumanEval11Test {
     @ParameterizedTest
-    @CsvSource({"111000, 101010, 010010", "1, 1, 0", "0101, 0000, 0101"})
+    @CsvSource({
+        "111000, 101010, 010010", "1, 1, 0", "0101, 0000, 0101", 
+        "'', '', ''" // mutated edge case: empty strings
+    })
     public void testStringXor(String a, String b, String expected) {
         HumanEval11 s = new HumanEval11();
         String result = s.stringXor(a, b);
         assertEquals(expected, result);
+        // mutated edge case: unequal length strings should throw exception
+        org.junit.jupiter.api.Assertions.assertThrows(StringIndexOutOfBoundsException.class, () -> s.stringXor("10", "1"), "Different lengths throw exception");
     }
+
 }

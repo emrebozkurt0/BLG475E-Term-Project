@@ -16,7 +16,10 @@ public class HumanEval28Test {
         return java.util.stream.Stream.of(
             Arguments.of(List.of(), ""),
             Arguments.of(Arrays.asList("x", "y", "z"), "xyz"),
-            Arguments.of(Arrays.asList("x", "y", "z", "w", "k"), "xyzwk")
+            Arguments.of(Arrays.asList("x", "y", "z", "w", "k"), "xyzwk"),
+            Arguments.of(Collections.singletonList("a"), "a"), // mutated edge case: singleton list
+            Arguments.of(Arrays.asList("a", "", "b"), "ab") // mutated edge case: list containing empty strings
         );
     }
+
 }

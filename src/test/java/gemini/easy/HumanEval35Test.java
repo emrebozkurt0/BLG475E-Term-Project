@@ -15,7 +15,9 @@ public class HumanEval35Test {
     private static java.util.stream.Stream<Arguments> provideLists() {
         return java.util.stream.Stream.of(
             Arguments.of(Arrays.asList(1, 2, 3), 3),
-            Arguments.of(Arrays.asList(5, 3, -5, 2, -3, 3, 9, 0, 124, 1, -10), 124)
+            Arguments.of(Arrays.asList(5, 3, -5, 2, -3, 3, 9, 0, 124, 1, -10), 124),
+            Arguments.of(Arrays.asList(7, 7, 7), 7) // mutated edge case: identical elements
         );
     }
+
 }

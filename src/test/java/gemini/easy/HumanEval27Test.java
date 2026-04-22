@@ -18,7 +18,9 @@ public class HumanEval27Test {
         return Stream.of(
             Arguments.of("", ""),
             Arguments.of("Hello!", "hELLO!"),
-            Arguments.of("These violent delights have violent ends", "tHESE VIOLENT DELIGHTS HAVE VIOLENT ENDS")
+            Arguments.of("These violent delights have violent ends", "tHESE VIOLENT DELIGHTS HAVE VIOLENT ENDS"),
+            Arguments.of("123", "123") // mutated edge case: purely numerical strings
         );
     }
+
 }
