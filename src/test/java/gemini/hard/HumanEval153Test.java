@@ -5,43 +5,24 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HumanEval153Test {
-    @Test
-    public void testStrongestExtension() {
-        HumanEval153 s = new HumanEval153();
-
-        String[] classNames = {
-            "Watashi", "Boku123", "__YESIMHERE", "K", "__HAHA", 
-            "YameRore", "finNNalLLly", "_", "Sp"
-        };
-        
-        java.util.List<java.util.List<String>> extensionsList = Arrays.asList(
-            Arrays.asList("tEN", "niNE", "eIGHt8OKe"),
-            Arrays.asList("nani", "NazeDa", "YEs.WeCaNe", "32145tggg"),
-            Arrays.asList("t", "eMptY", "nothing", "zeR00", "NuLl__", "123NoooneB321"),
-            Arrays.asList("Ta", "TAR", "t234An", "cosSo"),
-            Arrays.asList("Tab", "123", "781345", "-_-"),
-            Arrays.asList("HhAas", "okIWILL123", "WorkOut", "Fails", "-_-"),
-            Arrays.asList("Die", "NowW", "Wow", "WoW"),
-            Arrays.asList("Bb", "91245"),
-            Arrays.asList("671235", "Bb")
+    static java.util.stream.Stream<org.junit.jupiter.params.provider.Arguments> provideExtensionData() {
+        return java.util.stream.Stream.of(
+            org.junit.jupiter.params.provider.Arguments.of("Watashi", Arrays.asList("tEN", "niNE", "eIGHt8OKe"), "Watashi.eIGHt8OKe"),
+            org.junit.jupiter.params.provider.Arguments.of("Boku123", Arrays.asList("nani", "NazeDa", "YEs.WeCaNe", "32145tggg"), "Boku123.YEs.WeCaNe"),
+            org.junit.jupiter.params.provider.Arguments.of("__YESIMHERE", Arrays.asList("t", "eMptY", "nothing", "zeR00", "NuLl__", "123NoooneB321"), "__YESIMHERE.NuLl__"),
+            org.junit.jupiter.params.provider.Arguments.of("K", Arrays.asList("Ta", "TAR", "t234An", "cosSo"), "K.TAR"),
+            org.junit.jupiter.params.provider.Arguments.of("__HAHA", Arrays.asList("Tab", "123", "781345", "-_-"), "__HAHA.123"),
+            org.junit.jupiter.params.provider.Arguments.of("YameRore", Arrays.asList("HhAas", "okIWILL123", "WorkOut", "Fails", "-_-"), "YameRore.okIWILL123"),
+            org.junit.jupiter.params.provider.Arguments.of("finNNalLLly", Arrays.asList("Die", "NowW", "Wow", "WoW"), "finNNalLLly.WoW"),
+            org.junit.jupiter.params.provider.Arguments.of("_", Arrays.asList("Bb", "91245"), "_.Bb"),
+            org.junit.jupiter.params.provider.Arguments.of("Sp", Arrays.asList("671235", "Bb"), "Sp.671235")
         );
+    }
 
-        String[] expectedOutputs = {
-            "Watashi.eIGHt8OKe",
-            "Boku123.YEs.WeCaNe",
-            "__YESIMHERE.NuLl__",
-            "K.TAR",
-            "__HAHA.123",
-            "YameRore.okIWILL123",
-            "finNNalLLly.WoW",
-            "_.Bb",
-            "Sp.671235"
-        };
-
-        for (int i = 0; i < classNames.length; i++) {
-            assertEquals(expectedOutputs[i], 
-                s.StrongestExtension(classNames[i], extensionsList.get(i)),
-                "StrongestExtension for " + classNames[i] + " should return " + expectedOutputs[i]);
-        }
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.MethodSource("provideExtensionData")
+    public void testStrongestExtension(String className, java.util.List<String> extensions, String expected) {
+        HumanEval153 s = new HumanEval153();
+        assertEquals(expected, s.StrongestExtension(className, extensions), "StrongestExtension output should match expected");
     }
 }
