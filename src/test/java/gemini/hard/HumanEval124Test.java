@@ -1,40 +1,57 @@
 package gemini.hard;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import org.junit.jupiter.params.ParameterizedTest;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HumanEval124Test {
-    static java.util.stream.Stream<String> provideValidDates() {
+    static java.util.stream.Stream<org.junit.jupiter.params.provider.Arguments> provideDateData() {
         return java.util.stream.Stream.of(
-            "01-11-2000", "03-11-2000", "05-11-2000", "07-11-2000", 
-            "08-11-2000", "10-11-2000", "12-11-2000", "01-31-2020",
-            "04-12-2003", "06-04-2020", "09-04-2020", "11-04-2020", "04-30-2020",
-            "02-15-2000", "02-29-2020"
+            org.junit.jupiter.params.provider.Arguments.of("01-11-2000", true),
+            org.junit.jupiter.params.provider.Arguments.of("03-11-2000", true),
+            org.junit.jupiter.params.provider.Arguments.of("05-11-2000", true),
+            org.junit.jupiter.params.provider.Arguments.of("07-11-2000", true),
+            org.junit.jupiter.params.provider.Arguments.of("08-11-2000", true),
+            org.junit.jupiter.params.provider.Arguments.of("10-11-2000", true),
+            org.junit.jupiter.params.provider.Arguments.of("12-11-2000", true),
+            org.junit.jupiter.params.provider.Arguments.of("01-31-2020", true),
+            org.junit.jupiter.params.provider.Arguments.of("04-12-2003", true),
+            org.junit.jupiter.params.provider.Arguments.of("06-04-2020", true),
+            org.junit.jupiter.params.provider.Arguments.of("09-04-2020", true),
+            org.junit.jupiter.params.provider.Arguments.of("11-04-2020", true),
+            org.junit.jupiter.params.provider.Arguments.of("04-30-2020", true),
+            org.junit.jupiter.params.provider.Arguments.of("02-15-2000", true),
+            org.junit.jupiter.params.provider.Arguments.of("02-29-2020", true),
+
+            org.junit.jupiter.params.provider.Arguments.of(null, false),
+            org.junit.jupiter.params.provider.Arguments.of("", false),
+            org.junit.jupiter.params.provider.Arguments.of("06/04/2020", false),
+            org.junit.jupiter.params.provider.Arguments.of("04122003", false),
+            org.junit.jupiter.params.provider.Arguments.of("20030412", false),
+            org.junit.jupiter.params.provider.Arguments.of("2003-04", false),
+            org.junit.jupiter.params.provider.Arguments.of("2003-04-12", false),
+            org.junit.jupiter.params.provider.Arguments.of("04-2003", false),
+            org.junit.jupiter.params.provider.Arguments.of("aa-bb-cccc", false),
+            org.junit.jupiter.params.provider.Arguments.of("00-15-2020", false),
+            org.junit.jupiter.params.provider.Arguments.of("13-15-2020", false),
+            org.junit.jupiter.params.provider.Arguments.of("01-00-2020", false),
+            org.junit.jupiter.params.provider.Arguments.of("01-32-2020", false),
+            org.junit.jupiter.params.provider.Arguments.of("04-00-2020", false),
+            org.junit.jupiter.params.provider.Arguments.of("04-31-2020", false),
+            org.junit.jupiter.params.provider.Arguments.of("02-00-2020", false),
+            org.junit.jupiter.params.provider.Arguments.of("02-30-2020", false),
+            org.junit.jupiter.params.provider.Arguments.of("15-01-2012", false),
+            org.junit.jupiter.params.provider.Arguments.of("04-0-2040", false),
+            org.junit.jupiter.params.provider.Arguments.of("03-32-2011", false),
+            org.junit.jupiter.params.provider.Arguments.of("04-31-3000", false),
+            org.junit.jupiter.params.provider.Arguments.of("21-31-2000", false),
+            org.junit.jupiter.params.provider.Arguments.of("02-30-2000", false)
         );
     }
 
     @org.junit.jupiter.params.ParameterizedTest
-    @org.junit.jupiter.params.provider.MethodSource("provideValidDates")
-    public void testValidDates(String date) {
+    @org.junit.jupiter.params.provider.MethodSource("provideDateData")
+    public void testValidDateAll(String date, boolean expected) {
         HumanEval124 s = new HumanEval124();
-        assertTrue(s.validDate(date), "Date should be valid");
-    }
-
-    static java.util.stream.Stream<String> provideInvalidDates() {
-        return java.util.stream.Stream.of(
-            null, "", "06/04/2020", "04122003", "20030412", "2003-04", 
-            "2003-04-12", "04-2003", "aa-bb-cccc", "00-15-2020", "13-15-2020",
-            "01-00-2020", "01-32-2020", "04-00-2020", "04-31-2020",
-            "02-00-2020", "02-30-2020", "15-01-2012", "04-0-2040",
-            "03-32-2011", "04-31-3000", "21-31-2000", "02-30-2000"
-        );
-    }
-
-    @org.junit.jupiter.params.ParameterizedTest
-    @org.junit.jupiter.params.provider.MethodSource("provideInvalidDates")
-    public void testInvalidDates(String date) {
-        HumanEval124 s = new HumanEval124();
-        assertFalse(s.validDate(date), "Date should be invalid");
+        assertEquals(expected, s.validDate(date), "validDate outcome should match expected");
     }
 }
