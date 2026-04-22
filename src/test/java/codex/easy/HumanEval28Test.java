@@ -19,7 +19,9 @@ public class HumanEval28Test {
         return Stream.of(
                 Arguments.of(List.of(), ""),
                 Arguments.of(List.of("x", "y", "z"), "xyz"),
-                Arguments.of(List.of("x", "y", "z", "w", "k"), "xyzwk")
+                Arguments.of(List.of("x", "y", "z", "w", "k"), "xyzwk"),
+                Arguments.of(List.of("a"), "a"), // mutated edge case: singleton list
+                Arguments.of(List.of("a", "", "b"), "ab") // mutated edge case: list containing empty strings
         );
     }
 }

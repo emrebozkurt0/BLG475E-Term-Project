@@ -12,13 +12,16 @@ public class HumanEval11Test {
     public void testStringXor(String left, String right, String expected) {
         HumanEval11 s = new HumanEval11();
         assertEquals(expected, s.stringXor(left, right));
+        // mutated edge case: unequal length strings should throw exception
+        assertThrows(StringIndexOutOfBoundsException.class, () -> s.stringXor("10", "1"));
     }
 
     private static Stream<Arguments> stringXorCases() {
         return Stream.of(
                 Arguments.of("111000", "101010", "010010"),
                 Arguments.of("1", "1", "0"),
-                Arguments.of("0101", "0000", "0101")
+                Arguments.of("0101", "0000", "0101"),
+                Arguments.of("", "", "") // mutated edge case: empty strings
         );
     }
 }

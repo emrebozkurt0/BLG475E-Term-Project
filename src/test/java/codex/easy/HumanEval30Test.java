@@ -24,7 +24,8 @@ public class HumanEval30Test {
         Arguments.of(
             List.of(5, 3, -5, 2, 3, 3, 9, 0, 123, 1, -10),
             List.of(5, 3, 2, 3, 3, 9, 123, 1)
-        )
+        ),
+        Arguments.of(List.of(), List.of()) // mutated edge case: empty list
     );
     }
 }

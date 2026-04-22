@@ -21,7 +21,8 @@ public class HumanEval8Test {
                 Arguments.of(List.of(1, 1, 1), List.of(3, 1)),
                 Arguments.of(List.of(100, 0), List.of(100, 0)),
                 Arguments.of(List.of(3, 5, 7), List.of(15, 105)),
-                Arguments.of(List.of(10), List.of(10, 10))
+                Arguments.of(List.of(10), List.of(10, 10)),
+                Arguments.of(List.of(-1, -2, -3), List.of(-6, -6)) // mutated edge case: negative numbers
         );
     }
 }

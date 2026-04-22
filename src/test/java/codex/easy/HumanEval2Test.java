@@ -20,7 +20,10 @@ public class HumanEval2Test {
         return Stream.of(
                 Arguments.of(3.5, 0.5),
                 Arguments.of(1.33, 0.33),
-                Arguments.of(123.456, 0.456)
+                Arguments.of(123.456, 0.456),
+                Arguments.of(-1.5, -0.5), // mutated edge case: negative decimal
+                Arguments.of(0.0, 0.0),   // mutated edge case: zero boundary
+                Arguments.of(5.0, 0.0)    // mutated edge case: whole number
         );
     }
 }

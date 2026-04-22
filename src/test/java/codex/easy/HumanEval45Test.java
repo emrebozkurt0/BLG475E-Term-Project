@@ -20,7 +20,9 @@ public class HumanEval45Test {
         return Stream.of(
                 Arguments.of(5, 3, 7.5),
                 Arguments.of(2, 2, 2.0),
-                Arguments.of(10, 8, 40.0)
+                Arguments.of(10, 8, 40.0),
+                Arguments.of(0, 5, 0.0),    // mutated edge case: zero boundary
+                Arguments.of(-3, 5, -7.5)   // mutated edge case: negative lengths
         );
     }
 }

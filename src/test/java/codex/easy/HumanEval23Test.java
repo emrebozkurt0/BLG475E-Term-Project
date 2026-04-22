@@ -18,7 +18,8 @@ public class HumanEval23Test {
         return Stream.of(
                 Arguments.of("", 0),
                 Arguments.of("x", 1),
-                Arguments.of("asdfgh", 6)
+                Arguments.of("asdfgh", 6),
+                Arguments.of("abc!?", 5) // mutated edge case: special characters
         );
     }
 }

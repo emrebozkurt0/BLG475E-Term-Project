@@ -25,7 +25,9 @@ public class HumanEval53Test {
                 Arguments.of(999, 1, 1000),
                 Arguments.of(678, 654, 1332),
                 Arguments.of(21, 21, 42),
-                Arguments.of(99, 99, 198)
+                Arguments.of(99, 99, 198),
+                Arguments.of(-2, -3, -5), // mutated edge case: both negative operands
+                Arguments.of(-3, 2, -1)   // mutated edge case: mixed sign operands
         );
     }
 }
