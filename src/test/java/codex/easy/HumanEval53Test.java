@@ -1,31 +1,31 @@
 package codex.easy;
 
-import java.util.*;
-import java.lang.*;
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class HumanEval53Test {
-    @Test
-    public void testSolution() {
+    @ParameterizedTest
+    @MethodSource("addCases")
+    public void testAdd(int left, int right, int expected) {
         HumanEval53 s = new HumanEval53();
-        List<Boolean> correct = Arrays.asList(
-                s.add(0, 1) == 1,
-                s.add(1, 0) == 1,
-                s.add(2, 3) == 5,
-                s.add(5, 7) == 12,
-                s.add(7, 5) == 12
+        assertEquals(expected, s.add(left, right));
+    }
+
+    private static Stream<Arguments> addCases() {
+        return Stream.of(
+                Arguments.of(0, 1, 1),
+                Arguments.of(1, 0, 1),
+                Arguments.of(2, 3, 5),
+                Arguments.of(5, 7, 12),
+                Arguments.of(7, 5, 12),
+                Arguments.of(123, 456, 579),
+                Arguments.of(999, 1, 1000),
+                Arguments.of(678, 654, 1332),
+                Arguments.of(21, 21, 42),
+                Arguments.of(99, 99, 198)
         );
-        if (correct.contains(false)) {
-            throw new AssertionError();
-        }
-        Random rand = new Random();
-        for (int i = 0; i < 100; i++) {
-            int x = rand.nextInt(1000);
-            int y = rand.nextInt(1000);
-            if (s.add(x, y) != x + y) {
-                throw new AssertionError();
-            }
-        }
     }
 }
