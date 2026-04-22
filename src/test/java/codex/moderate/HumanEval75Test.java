@@ -2,6 +2,7 @@ package codex.moderate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -21,6 +22,22 @@ public class HumanEval75Test {
     })
     public void testIsMultiplyPrime(int input, boolean expected) {
         HumanEval_75 s = new HumanEval_75();
-        assertEquals(expected, s.isMultiplyPrime(input));
+        assertEquals(expected, s.isMultiplyPrime(input),
+            "isMultiplyPrime should match expected for input=" + input);
+    }
+
+    @Test
+    public void mutationBoundaryCasesForIsMultiplyPrime() {
+        HumanEval_75 s = new HumanEval_75();
+        int productOfThreePrimes = 99;
+        int firstOutOfConstraintUpperBound = 100;
+        int minimumNonPrime = 1;
+
+        assertEquals(true, s.isMultiplyPrime(productOfThreePrimes),
+            "99 should be identified as product of three primes");
+        assertEquals(false, s.isMultiplyPrime(firstOutOfConstraintUpperBound),
+            "100 should not be identified as product of exactly three primes");
+        assertEquals(false, s.isMultiplyPrime(minimumNonPrime),
+            "1 should not be identified as product of three primes");
     }
 }
