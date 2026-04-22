@@ -16,15 +16,25 @@ public class HumanEval_132 {
     is_nested('[[]][[' ) ➞ True
      */
     public boolean isNested(String string) {
-        int count = 0, max_depth = 0;
+        int count = 0;
+        boolean sawNestedDepth = false;
+        boolean closedAfterNesting = false;
         for (char c : string.toCharArray()) {
             if (c == '[') {
                 count++;
-                max_depth = Math.max(max_depth, count);
+                if (count >= 2) {
+                    sawNestedDepth = true;
+                }
             } else if (c == ']') {
                 count--;
+                if (count < 0) {
+                    return false;
+                }
+                if (sawNestedDepth && count == 0) {
+                    closedAfterNesting = true;
+                }
             }
         }
-        return max_depth >= 2;
+        return sawNestedDepth && closedAfterNesting;
     }
 }
