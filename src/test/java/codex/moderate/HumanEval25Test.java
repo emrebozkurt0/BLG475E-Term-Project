@@ -3,10 +3,8 @@ package codex.moderate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -21,7 +19,10 @@ public class HumanEval25Test {
                 Arguments.of(3 * 19 * 3 * 19, Arrays.asList(3, 3, 19, 19)),
                 Arguments.of(3 * 19 * 3 * 19 * 3 * 19, Arrays.asList(3, 3, 3, 19, 19, 19)),
                 Arguments.of(3 * 19 * 19 * 19, Arrays.asList(3, 19, 19, 19)),
-                Arguments.of(3 * 2 * 3, Arrays.asList(2, 3, 3))
+                Arguments.of(3 * 2 * 3, Arrays.asList(2, 3, 3)),
+                Arguments.of(1, List.of()),
+                Arguments.of(49, Arrays.asList(7, 7)),
+                Arguments.of(97, List.of(97))
         );
     }
 
@@ -31,21 +32,5 @@ public class HumanEval25Test {
         HumanEval_25 s = new HumanEval_25();
         assertEquals(expected, s.factorize(input),
             "factorization should match expected for input=" + input);
-    }
-
-    @Test
-    public void mutationBoundaryCasesForFactorize() {
-        HumanEval_25 s = new HumanEval_25();
-        int inputOne = 1;
-        int repeatedPrimeFactor = 7;
-        int squareOfPrime = 49;
-        int primeNumber = 97;
-
-        assertEquals(Collections.emptyList(), s.factorize(inputOne),
-            "factorization of 1 should be empty");
-        assertEquals(Arrays.asList(repeatedPrimeFactor, repeatedPrimeFactor), s.factorize(squareOfPrime),
-            "factorization should include repeated prime factors");
-        assertEquals(Collections.singletonList(primeNumber), s.factorize(primeNumber),
-            "factorization of a prime should contain only itself");
     }
 }

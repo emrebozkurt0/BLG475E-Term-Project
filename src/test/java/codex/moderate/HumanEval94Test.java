@@ -3,10 +3,8 @@ package codex.moderate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -22,7 +20,10 @@ public class HumanEval94Test {
                 Arguments.of(Arrays.asList(0, 8, 1, 2, 1, 7), 7),
                 Arguments.of(List.of(8191), 19),
                 Arguments.of(Arrays.asList(8191, 123456, 127, 7), 19),
-                Arguments.of(Arrays.asList(127, 97, 8192), 10)
+                Arguments.of(Arrays.asList(127, 97, 8192), 10),
+                Arguments.of(List.of(2), 2),
+                Arguments.of(Arrays.asList(2, 3, 5), 5),
+                Arguments.of(Arrays.asList(11, 101, 97), 2)
         );
     }
 
@@ -32,30 +33,5 @@ public class HumanEval94Test {
         HumanEval_94 s = new HumanEval_94();
         assertEquals(expected, s.skjkasdkd(input),
             "skjkasdkd should match expected for input=" + input);
-    }
-
-    @Test
-    public void mutationBoundaryCasesForSkjkasdkd() {
-        HumanEval_94 s = new HumanEval_94();
-        int smallestPrime = 2;
-        int primeThree = 3;
-        int primeFive = 5;
-        int primeEleven = 11;
-        int primeNinetySeven = 97;
-        int primeOneHundredOne = 101;
-        int expectedSinglePrimeDigitSum = 2;
-        int expectedLargestPrimeFiveDigitSum = 5;
-        int expectedLargestPrimeOneHundredOneDigitSum = 2;
-
-        List<Integer> singlePrimeCase = Collections.singletonList(smallestPrime);
-        List<Integer> increasingPrimeCase = Arrays.asList(smallestPrime, primeThree, primeFive);
-        List<Integer> largestPrimeHasTwoDigits = Arrays.asList(primeEleven, primeOneHundredOne, primeNinetySeven);
-
-        assertEquals(expectedSinglePrimeDigitSum, s.skjkasdkd(singlePrimeCase),
-            "single prime case should return digit sum of 2");
-        assertEquals(expectedLargestPrimeFiveDigitSum, s.skjkasdkd(increasingPrimeCase),
-            "largest prime 5 should yield digit sum 5");
-        assertEquals(expectedLargestPrimeOneHundredOneDigitSum, s.skjkasdkd(largestPrimeHasTwoDigits),
-            "largest prime 101 should yield digit sum 2");
     }
 }

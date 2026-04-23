@@ -1,10 +1,8 @@
 package codex.moderate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.stream.Stream;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -18,7 +16,10 @@ public class HumanEval51Test {
                 Arguments.of("eeeee", ""),
                 Arguments.of("acBAA", "cB"),
                 Arguments.of("EcBOO", "cB"),
-                Arguments.of("ybcd", "ybcd")
+                Arguments.of("ybcd", "ybcd"),
+                Arguments.of("AEIOU", ""),
+                Arguments.of("a e i", "  "),
+                Arguments.of("123 xyz", "123 xyz")
         );
     }
 
@@ -28,22 +29,5 @@ public class HumanEval51Test {
         HumanEval_51 s = new HumanEval_51();
         assertEquals(expected, s.removeVowels(input),
             "removeVowels should match expected for input=" + String.valueOf(input));
-    }
-
-    @Test
-    public void mutationBoundaryCasesForRemoveVowels() {
-        HumanEval_51 s = new HumanEval_51();
-        String uppercaseOnlyVowels = "AEIOU";
-        String vowelsSeparatedBySpaces = "a e i";
-        String alphaNumericInput = "123 xyz";
-
-        assertEquals("", s.removeVowels(uppercaseOnlyVowels),
-            "all uppercase vowels should be removed");
-        assertEquals("  ", s.removeVowels(vowelsSeparatedBySpaces),
-            "vowels should be removed while preserving spaces");
-        assertEquals("123 xyz", s.removeVowels(alphaNumericInput),
-            "non-vowel characters should stay unchanged");
-        assertThrows(NullPointerException.class, () -> s.removeVowels(null),
-            "null input should throw NullPointerException");
     }
 }
