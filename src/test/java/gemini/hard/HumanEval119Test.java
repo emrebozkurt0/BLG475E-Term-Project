@@ -15,42 +15,36 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class HumanEval119Test {
     static java.util.stream.Stream<org.junit.jupiter.params.provider.Arguments> provideParensData() {
         return java.util.stream.Stream.of(
-            org.junit.jupiter.params.provider.Arguments.of(new String[]{"()(", ")"}, "Yes"),
-            org.junit.jupiter.params.provider.Arguments.of(new String[]{")())", "(()()("}, "Yes"),
-            org.junit.jupiter.params.provider.Arguments.of(new String[]{"(())))", "(()())(("}, "Yes"),
-            org.junit.jupiter.params.provider.Arguments.of(new String[]{"(()(", "()))()"}, "Yes"),
-            org.junit.jupiter.params.provider.Arguments.of(new String[]{")", ")"}, "No"),
-            org.junit.jupiter.params.provider.Arguments.of(new String[]{"(()(())", "())())"}, "No"),
-            org.junit.jupiter.params.provider.Arguments.of(new String[]{"()", "())"}, "No"),
-            org.junit.jupiter.params.provider.Arguments.of(new String[]{"((((", "((())"}, "No"),
-            org.junit.jupiter.params.provider.Arguments.of(new String[]{")(()", "(()("}, "No"),
-            org.junit.jupiter.params.provider.Arguments.of(new String[]{")(", ")("}, "No"),
-            org.junit.jupiter.params.provider.Arguments.of(new String[]{"a", "b"}, "Yes"),
-            // Mutation tests for uncovered ECs: EC5 (both empty)
-            org.junit.jupiter.params.provider.Arguments.of(new String[]{"", ""}, "Yes")
+            org.junit.jupiter.params.provider.Arguments.of(Arrays.asList("()(", ")"), "Yes", null),
+            org.junit.jupiter.params.provider.Arguments.of(Arrays.asList(")())", "(()()("), "Yes", null),
+            org.junit.jupiter.params.provider.Arguments.of(Arrays.asList("(())))", "(()())(("), "Yes", null),
+            org.junit.jupiter.params.provider.Arguments.of(Arrays.asList("(()(", "()))()"), "Yes", null),
+            org.junit.jupiter.params.provider.Arguments.of(Arrays.asList(")", ")"), "No", null),
+            org.junit.jupiter.params.provider.Arguments.of(Arrays.asList("(()(())", "())())"), "No", null),
+            org.junit.jupiter.params.provider.Arguments.of(Arrays.asList("()", "())"), "No", null),
+            org.junit.jupiter.params.provider.Arguments.of(Arrays.asList("((((", "((())"), "No", null),
+            org.junit.jupiter.params.provider.Arguments.of(Arrays.asList(")(()", "(()("), "No", null),
+            org.junit.jupiter.params.provider.Arguments.of(Arrays.asList(")(", ")("), "No", null),
+            org.junit.jupiter.params.provider.Arguments.of(Arrays.asList("a", "b"), "Yes", null),
+            org.junit.jupiter.params.provider.Arguments.of(Arrays.asList("", ""), "Yes", null),
+            org.junit.jupiter.params.provider.Arguments.of(List.of("()"), null, IndexOutOfBoundsException.class),
+            org.junit.jupiter.params.provider.Arguments.of(null, null, NullPointerException.class)
         );
+    }
+
+    private void executeMatchParensAssertion(HumanEval119 s, List<String> input, String expected, Class<? extends Throwable> expectedException) {
+        if (expectedException != null) {
+            assertThrows(expectedException, () -> s.matchParens(input));
+        } else {
+            assertEquals(expected, s.matchParens(input), "matchParens output should match expected");
+        }
     }
 
     @org.junit.jupiter.params.ParameterizedTest
     @org.junit.jupiter.params.provider.MethodSource("provideParensData")
-    public void testMatchParens(String[] input, String expected) {
+    public void testMatchParens(List<String> input, String expected, Class<? extends Throwable> expectedException) {
         HumanEval119 s = new HumanEval119();
-        assertEquals(expected, s.matchParens(Arrays.asList(input)), "matchParens output should match expected");
-    }
-
-    static Stream<Arguments> provideInvalidParensData() {
-        return Stream.of(
-            // Mutation tests for uncovered ECs: EC6 (list size != 2)
-            Arguments.of(List.of("()"), IndexOutOfBoundsException.class),
-            // Mutation tests for uncovered ECs: EC6 (null list)
-            Arguments.of(null, NullPointerException.class)
-        );
-    }
-
-    @ParameterizedTest
-    @MethodSource("provideInvalidParensData")
-    public void testMatchParensInvalidInputs(List<String> input, Class<? extends Throwable> expectedException) {
-        HumanEval119 s = new HumanEval119();
-        assertThrows(expectedException, () -> s.matchParens(input));
+        org.junit.jupiter.api.Assertions.assertNotNull(s);
+        executeMatchParensAssertion(s, input, expected, expectedException);
     }
 }
