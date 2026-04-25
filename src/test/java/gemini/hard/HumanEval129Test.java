@@ -15,7 +15,9 @@ public class HumanEval129Test {
             org.junit.jupiter.params.provider.Arguments.of(Arrays.asList(Arrays.asList(1, 3), Arrays.asList(3, 2)), 10, Arrays.asList(1, 3, 1, 3, 1, 3, 1, 3, 1, 3)),
             org.junit.jupiter.params.provider.Arguments.of(Arrays.asList(Arrays.asList(2, 3), Arrays.asList(4, 1)), 3, Arrays.asList(1, 3, 1)),
             org.junit.jupiter.params.provider.Arguments.of(Arrays.asList(Arrays.asList(2, 3), Arrays.asList(4, 5)), 2, Arrays.asList(1, Integer.MAX_VALUE)),
-            org.junit.jupiter.params.provider.Arguments.of(Arrays.asList(), 2, Arrays.asList(1, Integer.MAX_VALUE))
+            org.junit.jupiter.params.provider.Arguments.of(Arrays.asList(), 2, Arrays.asList(1, Integer.MAX_VALUE)),
+            // Mutation tests for uncovered ECs: EC8 (k<=0)
+            org.junit.jupiter.params.provider.Arguments.of(Arrays.asList(Arrays.asList(1, 2), Arrays.asList(3, 4)), 0, Arrays.asList())
         );
     }
 

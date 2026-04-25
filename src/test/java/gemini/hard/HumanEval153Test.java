@@ -3,6 +3,7 @@ package gemini.hard;
 import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class HumanEval153Test {
     static java.util.stream.Stream<org.junit.jupiter.params.provider.Arguments> provideExtensionData() {
@@ -15,7 +16,15 @@ public class HumanEval153Test {
             org.junit.jupiter.params.provider.Arguments.of("YameRore", Arrays.asList("HhAas", "okIWILL123", "WorkOut", "Fails", "-_-"), "YameRore.okIWILL123"),
             org.junit.jupiter.params.provider.Arguments.of("finNNalLLly", Arrays.asList("Die", "NowW", "Wow", "WoW"), "finNNalLLly.WoW"),
             org.junit.jupiter.params.provider.Arguments.of("_", Arrays.asList("Bb", "91245"), "_.Bb"),
-            org.junit.jupiter.params.provider.Arguments.of("Sp", Arrays.asList("671235", "Bb"), "Sp.671235")
+            org.junit.jupiter.params.provider.Arguments.of("Sp", Arrays.asList("671235", "Bb"), "Sp.671235"),
+            // Mutation tests for uncovered ECs: EC2 (tie -> first occurrence)
+            org.junit.jupiter.params.provider.Arguments.of("C", Arrays.asList("Ab", "aB", "Zz"), "C.Ab"),
+            // Mutation tests for uncovered ECs: EC5 (single extension)
+            org.junit.jupiter.params.provider.Arguments.of("Only", java.util.List.of("Ext"), "Only.Ext"),
+            // Mutation tests for uncovered ECs: EC7 (null class)
+            org.junit.jupiter.params.provider.Arguments.of(null, java.util.List.of("Ext"), "null.Ext"),
+            // Mutation tests for uncovered ECs: EC6 (empty extension list)
+            org.junit.jupiter.params.provider.Arguments.of("C", java.util.List.of(), "C.null")
         );
     }
 
@@ -24,5 +33,19 @@ public class HumanEval153Test {
     public void testStrongestExtension(String className, java.util.List<String> extensions, String expected) {
         HumanEval153 s = new HumanEval153();
         assertEquals(expected, s.StrongestExtension(className, extensions), "StrongestExtension output should match expected");
+    }
+
+    @Test
+    public void testStrongestExtensionMutationNullExtensions() {
+        // Mutation tests for uncovered ECs: EC6 (null extensions)
+        HumanEval153 s = new HumanEval153();
+        assertThrows(NullPointerException.class, () -> s.StrongestExtension("C", null));
+    }
+
+    @Test
+    public void testStrongestExtensionMutationNullEntry() {
+        // Mutation tests for uncovered ECs: EC7 (null extension entry)
+        HumanEval153 s = new HumanEval153();
+        assertThrows(NullPointerException.class, () -> s.StrongestExtension("C", Arrays.asList("AB", null)));
     }
 }

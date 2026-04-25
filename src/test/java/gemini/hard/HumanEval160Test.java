@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class HumanEval160Test {
     static java.util.stream.Stream<org.junit.jupiter.params.provider.Arguments> provideAlgebraData() {
@@ -13,7 +14,11 @@ public class HumanEval160Test {
             org.junit.jupiter.params.provider.Arguments.of(new ArrayList<>(Arrays.asList("/", "*")), new ArrayList<>(Arrays.asList(7, 3, 4)), 8),
             org.junit.jupiter.params.provider.Arguments.of(new ArrayList<>(Arrays.asList("+", "**", "**")), new ArrayList<>(Arrays.asList(7, 5, 3, 2)), 1953132),
             org.junit.jupiter.params.provider.Arguments.of(new ArrayList<>(Arrays.asList("//")), new ArrayList<>(Arrays.asList(7, 3)), 2),
-            org.junit.jupiter.params.provider.Arguments.of(new ArrayList<>(Arrays.asList("?")), new ArrayList<>(Arrays.asList(2, 3)), 2)
+            org.junit.jupiter.params.provider.Arguments.of(new ArrayList<>(Arrays.asList("?")), new ArrayList<>(Arrays.asList(2, 3)), 2),
+            // Mutation tests for uncovered ECs: EC6 (minimum valid sizes)
+            org.junit.jupiter.params.provider.Arguments.of(new ArrayList<>(Arrays.asList("+")), new ArrayList<>(Arrays.asList(1, 2)), 3),
+            // Mutation tests for uncovered ECs: EC10 (empty operators with one operand)
+            org.junit.jupiter.params.provider.Arguments.of(new ArrayList<>(), new ArrayList<>(Arrays.asList(42)), 42)
         );
     }
 
@@ -22,5 +27,21 @@ public class HumanEval160Test {
     public void testDoAlgebra(ArrayList<String> ops, ArrayList<Integer> nums, int expected) {
         HumanEval160 s = new HumanEval160();
         assertEquals(expected, s.doAlgebra(ops, nums), "doAlgebra returned incorrect value");
+    }
+
+    @Test
+    public void testDoAlgebraMutationLengthMismatch() {
+        // Mutation tests for uncovered ECs: EC8 (operator/operand size mismatch)
+        HumanEval160 s = new HumanEval160();
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> s.doAlgebra(new ArrayList<>(Arrays.asList("+", "+")), new ArrayList<>(Arrays.asList(1, 2))));
+    }
+
+    @Test
+    public void testDoAlgebraMutationDivisionByZero() {
+        // Mutation tests for uncovered ECs: EC9 (division by zero)
+        HumanEval160 s = new HumanEval160();
+        assertThrows(ArithmeticException.class,
+                () -> s.doAlgebra(new ArrayList<>(Arrays.asList("/")), new ArrayList<>(Arrays.asList(3, 0))));
     }
 }
