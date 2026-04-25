@@ -19,6 +19,8 @@ public class HumanEval46Test {
 
     private static Stream<Arguments> fib4Cases() {
         return Stream.of(
+                // Mutation tests for uncovered ECs: EC4 (negative index)
+                Arguments.of(-1, 0),
                 Arguments.of(0, 0),
                 Arguments.of(1, 0),
                 Arguments.of(2, 2),

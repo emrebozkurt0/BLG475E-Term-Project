@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class HumanEval129Test {
 
@@ -33,8 +34,29 @@ public class HumanEval129Test {
                 Arguments.of(grid(new int[][]{{6, 1, 5}, {3, 8, 9}, {2, 7, 4}}), 8, list(1, 5, 1, 5, 1, 5, 1, 5)),
                 Arguments.of(grid(new int[][]{{1, 2}, {3, 4}}), 10, list(1, 2, 1, 2, 1, 2, 1, 2, 1, 2)),
                 Arguments.of(grid(new int[][]{{1, 3}, {3, 2}}), 10, list(1, 3, 1, 3, 1, 3, 1, 3, 1, 3)),
+                // Mutation tests for uncovered ECs: EC9 (invalid grid N=1)
+                Arguments.of(grid(new int[][]{{1}}), 3, list(1, Integer.MAX_VALUE, 1)),
                 Arguments.of(grid(new int[][]{}), 0, List.of())
         );
+    }
+
+    @org.junit.jupiter.api.Test
+    public void minPath_mutation_gridWithoutOne_throwsException() {
+        // Mutation tests for uncovered ECs: EC9 (invalid permutation/content)
+        HumanEval129 solution = new HumanEval129();
+        List<List<Integer>> invalid = grid(new int[][]{{2, 3}, {4, 5}});
+        assertThrows(IndexOutOfBoundsException.class, () -> solution.minPath(invalid, 3));
+    }
+
+    @org.junit.jupiter.api.Test
+    public void minPath_mutation_nonSquareGrid_throwsException() {
+        // Mutation tests for uncovered ECs: EC9 (non-square grid)
+        HumanEval129 solution = new HumanEval129();
+        List<List<Integer>> invalid = Arrays.asList(
+                Arrays.asList(1, 2),
+                List.of()
+        );
+        assertThrows(IndexOutOfBoundsException.class, () -> solution.minPath(invalid, 3));
     }
 
     private static List<List<Integer>> grid(int[][] values) {

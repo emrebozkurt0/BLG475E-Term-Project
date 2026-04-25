@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class HumanEval32Test {
 
@@ -35,7 +36,20 @@ public class HumanEval32Test {
                 Arguments.of(Arrays.asList(1.0, 1.0), -1.0, 1e-12, false),
                 Arguments.of(Arrays.asList(-10.0, 1.0), 10.0, 1e-6, false),
                 Arguments.of(Arrays.asList(-0.75, 1.0), 0.75, 1e-6, false),
-                Arguments.of(Arrays.asList(1.0, 0.0, 1.0), null, 0.0, true)
+                Arguments.of(Arrays.asList(1.0, 0.0, 1.0), null, 0.0, true),
+                // Mutation tests for uncovered ECs: EC6 (no real root)
+                Arguments.of(Arrays.asList(1.0, 0.0, 1.0, 0.0), null, 0.0, true),
+                // Mutation tests for uncovered ECs: EC7 (empty list)
+                Arguments.of(List.of(), -1.0, 1e-12, false),
+                // Mutation tests for uncovered ECs: EC8 (highest-degree coefficient is zero)
+                Arguments.of(Arrays.asList(1.0, 2.0, 0.0, 0.0), -0.5, 1e-6, false)
         );
+    }
+
+    @org.junit.jupiter.api.Test
+    public void findZero_mutation_nullList_throwsException() {
+        // Mutation tests for uncovered ECs: EC7 (null list)
+        HumanEval32 solution = new HumanEval32();
+        assertThrows(NullPointerException.class, () -> solution.findZero(null));
     }
 }

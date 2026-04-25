@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class HumanEval158Test {
 
@@ -35,5 +36,26 @@ public class HumanEval158Test {
                 Arguments.of(Arrays.asList("ba", "ab"), "ab"),
                 Arguments.of(List.of("solo"), "solo")
         );
+    }
+
+    @org.junit.jupiter.api.Test
+    public void findMax_mutation_emptyList_throwsException() {
+        // Mutation tests for uncovered ECs: EC6 (empty list)
+        HumanEval158 solution = new HumanEval158();
+        assertThrows(IndexOutOfBoundsException.class, () -> solution.findMax(List.of()));
+    }
+
+    @org.junit.jupiter.api.Test
+    public void findMax_mutation_nullList_throwsException() {
+        // Mutation tests for uncovered ECs: EC6 (null list)
+        HumanEval158 solution = new HumanEval158();
+        assertThrows(NullPointerException.class, () -> solution.findMax(null));
+    }
+
+    @org.junit.jupiter.api.Test
+    public void findMax_mutation_nullElement_throwsException() {
+        // Mutation tests for uncovered ECs: EC7 (null element)
+        HumanEval158 solution = new HumanEval158();
+        assertThrows(NullPointerException.class, () -> solution.findMax(Arrays.asList("abc", null)));
     }
 }

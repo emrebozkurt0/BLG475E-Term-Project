@@ -7,6 +7,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class HumanEval154Test {
 
@@ -29,5 +30,19 @@ public class HumanEval154Test {
                 Arguments.of("ab", "abcd", false),
                 Arguments.of("zzcabyy", "abc", true)
         );
+    }
+
+    @org.junit.jupiter.api.Test
+    public void cycpatternCheck_mutation_nullA_throwsException() {
+        // Mutation tests for uncovered ECs: EC6 (null input)
+        HumanEval154 solution = new HumanEval154();
+        assertThrows(NullPointerException.class, () -> solution.cycpatternCheck(null, "ab"));
+    }
+
+    @org.junit.jupiter.api.Test
+    public void cycpatternCheck_mutation_nullB_throwsException() {
+        // Mutation tests for uncovered ECs: EC6 (null input)
+        HumanEval154 solution = new HumanEval154();
+        assertThrows(NullPointerException.class, () -> solution.cycpatternCheck("ab", null));
     }
 }

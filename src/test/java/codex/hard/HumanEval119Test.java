@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class HumanEval119Test {
 
@@ -32,7 +33,23 @@ public class HumanEval119Test {
                 Arguments.of(Arrays.asList(")(()", "(()("), "No"),
                 Arguments.of(Arrays.asList(")(", ")("), "No"),
                 Arguments.of(Arrays.asList("", ""), "Yes"),
-                Arguments.of(Arrays.asList("(", ""), "No")
+                Arguments.of(Arrays.asList("(", ""), "No"),
+                // Mutation tests for uncovered ECs: EC6 (non-parenthesis characters)
+                Arguments.of(Arrays.asList("abc", "def"), "No")
         );
+    }
+
+    @org.junit.jupiter.api.Test
+    public void matchParens_mutation_malformedList_throwsException() {
+        // Mutation tests for uncovered ECs: EC6 (list size != 2)
+        HumanEval119 solution = new HumanEval119();
+        assertThrows(IndexOutOfBoundsException.class, () -> solution.matchParens(List.of("()")));
+    }
+
+    @org.junit.jupiter.api.Test
+    public void matchParens_mutation_nullList_throwsException() {
+        // Mutation tests for uncovered ECs: EC6 (null list)
+        HumanEval119 solution = new HumanEval119();
+        assertThrows(NullPointerException.class, () -> solution.matchParens(null));
     }
 }

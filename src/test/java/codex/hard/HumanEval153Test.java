@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class HumanEval153Test {
 
@@ -31,7 +32,30 @@ public class HumanEval153Test {
                 Arguments.of("_", Arrays.asList("Bb", "91245"), "_.Bb"),
                 Arguments.of("Sp", Arrays.asList("671235", "Bb"), "Sp.671235"),
                 Arguments.of("C", Arrays.asList("Ab", "aB", "Zz"), "C.Ab"),
-                Arguments.of("Only", List.of("Ext"), "Only.Ext")
+                Arguments.of("Only", List.of("Ext"), "Only.Ext"),
+                // Mutation tests for uncovered ECs: EC7 (null class name)
+                Arguments.of(null, List.of("Ext"), "null.Ext")
         );
+    }
+
+    @org.junit.jupiter.api.Test
+    public void strongestExtension_mutation_emptyExtensions_throwsException() {
+        // Mutation tests for uncovered ECs: EC6 (empty extensions)
+        HumanEval153 solution = new HumanEval153();
+        assertThrows(IndexOutOfBoundsException.class, () -> solution.StrongestExtension("C", List.of()));
+    }
+
+    @org.junit.jupiter.api.Test
+    public void strongestExtension_mutation_nullExtensions_throwsException() {
+        // Mutation tests for uncovered ECs: EC6 (null extensions)
+        HumanEval153 solution = new HumanEval153();
+        assertThrows(NullPointerException.class, () -> solution.StrongestExtension("C", null));
+    }
+
+    @org.junit.jupiter.api.Test
+    public void strongestExtension_mutation_nullExtensionEntry_throwsException() {
+        // Mutation tests for uncovered ECs: EC7 (null extension entry)
+        HumanEval153 solution = new HumanEval153();
+        assertThrows(NullPointerException.class, () -> solution.StrongestExtension("C", Arrays.asList("AB", null)));
     }
 }

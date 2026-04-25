@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class HumanEval160Test {
 
@@ -26,12 +27,30 @@ public class HumanEval160Test {
                 Arguments.of(ops("+", "*", "-"), nums(2, 3, 4, 5), 9),
                 Arguments.of(ops("/", "*"), nums(7, 3, 4), 8),
                 Arguments.of(ops("+", "**", "**"), nums(7, 5, 3, 2), 1953132),
+                // Mutation tests for uncovered ECs: EC6 (minimum valid sizes)
+                Arguments.of(ops("+"), nums(1, 2), 3),
                 Arguments.of(ops(), nums(42), 42),
                 Arguments.of(ops("*", "/"), nums(10, 3, 2), 15),
                 Arguments.of(ops("-", "+", "-"), nums(10, 3, 2, 5), 4),
                 Arguments.of(ops("+", "**"), nums(8, 3, 2), 17),
                 Arguments.of(ops("%"), nums(9, 4), 9)
         );
+    }
+
+    @org.junit.jupiter.api.Test
+    public void doAlgebra_mutation_lengthMismatch_throwsException() {
+        // Mutation tests for uncovered ECs: EC8 (operator/operand size mismatch)
+        HumanEval160 solution = new HumanEval160();
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> solution.doAlgebra(new ArrayList<>(ops("+", "+")), new ArrayList<>(nums(1, 2))));
+    }
+
+    @org.junit.jupiter.api.Test
+    public void doAlgebra_mutation_divisionByZero_throwsException() {
+        // Mutation tests for uncovered ECs: EC9 (division by zero)
+        HumanEval160 solution = new HumanEval160();
+        assertThrows(ArithmeticException.class,
+                () -> solution.doAlgebra(new ArrayList<>(ops("/")), new ArrayList<>(nums(3, 0))));
     }
 
     private static List<String> ops(String... values) {
