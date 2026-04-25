@@ -1,56 +1,106 @@
 package gemini.hard;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class HumanEval32Test {
+
+    private static final double DEFAULT_TOLERANCE = 1e-4;
+    private static final double STRICT_TOLERANCE = 1e-12;
+    private static final double MEDIUM_TOLERANCE = 1e-6;
+    private static final double EXPECTED_LINEAR_ROOT = -0.5;
+    private static final double EXPECTED_CUBIC_ROOT = 1.0;
+    private static final double EXPECTED_POSITIVE_LINEAR_ROOT = 10.0;
+    private static final double EXPECTED_ODD_SIZE_ROOT = 0.0;
+    private static final double EXPECTED_EMPTY_LIST_ROOT = -100.0;
+
     @Test
     public void testPoly() {
         HumanEval32 s = new HumanEval32();
         java.util.List<Double> coeffs = Arrays.asList(1.0, 2.0);
-        double x = -0.5;
-        double expected = 0.0;
-        double tolerance = 1e-4;
+        double x = EXPECTED_LINEAR_ROOT;
+        double expected = EXPECTED_ODD_SIZE_ROOT;
+        double tolerance = DEFAULT_TOLERANCE;
         assertEquals(expected, s.poly(coeffs, x), tolerance, "poly([1.0, 2.0], -0.5) should be 0.0");
     }
 
-    @Test
-    public void testFindZero() {
+    @ParameterizedTest(name = "findZero case {0}")
+    @MethodSource("provideFindZeroAssertions")
+    public void testFindZero(String caseName, Consumer<HumanEval32> assertion) {
         HumanEval32 s = new HumanEval32();
-        double tolerance = 1e-4;
-        
-        java.util.List<Double> coeffs1 = Arrays.asList(1.0, 2.0);
-        double expected1 = -0.5;
-        assertEquals(expected1, s.findZero(coeffs1), tolerance, "findZero([1.0, 2.0]) should be -0.5");
-        
-        java.util.List<Double> coeffs2 = Arrays.asList(-6.0, 11.0, -6.0, 1.0);
-        double expected2 = 1.0;
-        assertEquals(expected2, s.findZero(coeffs2), tolerance, "findZero([-6.0, 11.0, -6.0, 1.0]) should be 1.0");
-
-        // Mutation tests for uncovered ECs: EC2 (positive linear root)
-        assertEquals(10.0, s.findZero(Arrays.asList(-10.0, 1.0)), tolerance,
-            "findZero([-10.0, 1.0]) should be 10.0");
-
-        // Mutation tests for uncovered ECs: EC5 (odd-size coefficients)
-        assertEquals(0.0, s.findZero(Arrays.asList(0.0, 1.0, 0.0)), tolerance,
-            "Odd-size list with a real root should be handled");
-
-        // Mutation tests for uncovered ECs: EC8 (highest-degree coefficient is zero)
-        assertEquals(-0.5, s.findZero(Arrays.asList(1.0, 2.0, 0.0, 0.0)), tolerance,
-            "Trailing zero coefficients should reduce to linear behavior");
-
-        // Mutation tests for uncovered ECs: EC7 (empty list)
-        assertEquals(-100.0, s.findZero(List.of()), tolerance,
-            "Empty coefficient list currently converges to the left bound");
+        assertion.accept(s);
     }
 
-        @Test
-        public void testFindZeroMutationNullList() {
-        // Mutation tests for uncovered ECs: EC7 (null list)
-        HumanEval32 s = new HumanEval32();
-        assertThrows(NullPointerException.class, () -> s.findZero(null));
-        }
+    static Stream<Arguments> provideFindZeroAssertions() {
+        return Stream.of(
+            Arguments.of(
+                "linear root",
+                (Consumer<HumanEval32>) s -> assertEquals(
+                    EXPECTED_LINEAR_ROOT,
+                    s.findZero(Arrays.asList(1.0, 2.0)),
+                    DEFAULT_TOLERANCE,
+                    "findZero([1.0, 2.0]) should be -0.5"
+                )
+            ),
+            Arguments.of(
+                "cubic root",
+                (Consumer<HumanEval32>) s -> assertEquals(
+                    EXPECTED_CUBIC_ROOT,
+                    s.findZero(Arrays.asList(-6.0, 11.0, -6.0, 1.0)),
+                    DEFAULT_TOLERANCE,
+                    "findZero([-6.0, 11.0, -6.0, 1.0]) should be 1.0"
+                )
+            ),
+            Arguments.of(
+                "positive linear root",
+                (Consumer<HumanEval32>) s -> assertEquals(
+                    EXPECTED_POSITIVE_LINEAR_ROOT,
+                    s.findZero(Arrays.asList(-10.0, 1.0)),
+                    DEFAULT_TOLERANCE,
+                    "findZero([-10.0, 1.0]) should be 10.0"
+                )
+            ),
+            Arguments.of(
+                "odd-size coefficients",
+                (Consumer<HumanEval32>) s -> assertEquals(
+                    EXPECTED_ODD_SIZE_ROOT,
+                    s.findZero(Arrays.asList(0.0, 1.0, 0.0)),
+                    DEFAULT_TOLERANCE,
+                    "Odd-size list with a real root should be handled"
+                )
+            ),
+            Arguments.of(
+                "trailing zero coefficients",
+                (Consumer<HumanEval32>) s -> assertEquals(
+                    EXPECTED_LINEAR_ROOT,
+                    s.findZero(Arrays.asList(1.0, 2.0, 0.0, 0.0)),
+                    MEDIUM_TOLERANCE,
+                    "Trailing zero coefficients should reduce to linear behavior"
+                )
+            ),
+            Arguments.of(
+                "empty list",
+                (Consumer<HumanEval32>) s -> assertEquals(
+                    EXPECTED_EMPTY_LIST_ROOT,
+                    s.findZero(List.of()),
+                    STRICT_TOLERANCE,
+                    "Empty coefficient list currently converges to the left bound"
+                )
+            ),
+            Arguments.of(
+                "null list throws",
+                (Consumer<HumanEval32>) s -> assertThrows(NullPointerException.class, () -> s.findZero(null))
+            )
+        );
+    }
 }

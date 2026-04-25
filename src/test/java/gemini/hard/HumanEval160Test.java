@@ -3,6 +3,13 @@ package gemini.hard;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -29,19 +36,20 @@ public class HumanEval160Test {
         assertEquals(expected, s.doAlgebra(ops, nums), "doAlgebra returned incorrect value");
     }
 
-    @Test
-    public void testDoAlgebraMutationLengthMismatch() {
-        // Mutation tests for uncovered ECs: EC8 (operator/operand size mismatch)
-        HumanEval160 s = new HumanEval160();
-        assertThrows(IndexOutOfBoundsException.class,
-                () -> s.doAlgebra(new ArrayList<>(Arrays.asList("+", "+")), new ArrayList<>(Arrays.asList(1, 2))));
+    static Stream<Arguments> provideInvalidAlgebraData() {
+        return Stream.of(
+            // Mutation tests for uncovered ECs: EC8 (operator/operand size mismatch)
+            Arguments.of(Arrays.asList("+", "+"), Arrays.asList(1, 2), IndexOutOfBoundsException.class),
+            // Mutation tests for uncovered ECs: EC9 (division by zero)
+            Arguments.of(Arrays.asList("/"), Arrays.asList(3, 0), ArithmeticException.class)
+        );
     }
 
-    @Test
-    public void testDoAlgebraMutationDivisionByZero() {
-        // Mutation tests for uncovered ECs: EC9 (division by zero)
+    @ParameterizedTest
+    @MethodSource("provideInvalidAlgebraData")
+    public void testDoAlgebraInvalidInputs(List<String> ops, List<Integer> nums, Class<? extends Throwable> expectedException) {
         HumanEval160 s = new HumanEval160();
-        assertThrows(ArithmeticException.class,
-                () -> s.doAlgebra(new ArrayList<>(Arrays.asList("/")), new ArrayList<>(Arrays.asList(3, 0))));
+        assertThrows(expectedException,
+                () -> s.doAlgebra(new ArrayList<>(ops), new ArrayList<>(nums)));
     }
 }

@@ -40,23 +40,20 @@ public class HumanEval129Test {
         );
     }
 
-    @org.junit.jupiter.api.Test
-    public void minPath_mutation_gridWithoutOne_throwsException() {
-        // Mutation tests for uncovered ECs: EC9 (invalid permutation/content)
+    @ParameterizedTest(name = "minPath invalid case {index}")
+    @MethodSource("invalidMinPathCases")
+    public void minPath_invalidInput_throwsExpectedException(List<List<Integer>> grid, int k, Class<? extends Throwable> expectedException) {
         HumanEval129 solution = new HumanEval129();
-        List<List<Integer>> invalid = grid(new int[][]{{2, 3}, {4, 5}});
-        assertThrows(IndexOutOfBoundsException.class, () -> solution.minPath(invalid, 3));
+        assertThrows(expectedException, () -> solution.minPath(grid, k));
     }
 
-    @org.junit.jupiter.api.Test
-    public void minPath_mutation_nonSquareGrid_throwsException() {
-        // Mutation tests for uncovered ECs: EC9 (non-square grid)
-        HumanEval129 solution = new HumanEval129();
-        List<List<Integer>> invalid = Arrays.asList(
-                Arrays.asList(1, 2),
-                List.of()
+    private static Stream<Arguments> invalidMinPathCases() {
+        return Stream.of(
+                // Mutation tests for uncovered ECs: EC9 (invalid permutation/content)
+                Arguments.of(grid(new int[][]{{2, 3}, {4, 5}}), 3, IndexOutOfBoundsException.class),
+                // Mutation tests for uncovered ECs: EC9 (non-square grid)
+                Arguments.of(Arrays.asList(Arrays.asList(1, 2), List.of()), 3, IndexOutOfBoundsException.class)
         );
-        assertThrows(IndexOutOfBoundsException.class, () -> solution.minPath(invalid, 3));
     }
 
     private static List<List<Integer>> grid(int[][] values) {

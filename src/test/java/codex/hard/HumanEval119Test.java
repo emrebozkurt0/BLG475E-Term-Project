@@ -39,17 +39,19 @@ public class HumanEval119Test {
         );
     }
 
-    @org.junit.jupiter.api.Test
-    public void matchParens_mutation_malformedList_throwsException() {
-        // Mutation tests for uncovered ECs: EC6 (list size != 2)
+    @ParameterizedTest(name = "matchParens invalid case {index}")
+    @MethodSource("invalidMatchParensCases")
+    public void matchParens_invalidInput_throwsExpectedException(List<String> parts, Class<? extends Throwable> expectedException) {
         HumanEval119 solution = new HumanEval119();
-        assertThrows(IndexOutOfBoundsException.class, () -> solution.matchParens(List.of("()")));
+        assertThrows(expectedException, () -> solution.matchParens(parts));
     }
 
-    @org.junit.jupiter.api.Test
-    public void matchParens_mutation_nullList_throwsException() {
-        // Mutation tests for uncovered ECs: EC6 (null list)
-        HumanEval119 solution = new HumanEval119();
-        assertThrows(NullPointerException.class, () -> solution.matchParens(null));
+    private static Stream<Arguments> invalidMatchParensCases() {
+        return Stream.of(
+                // Mutation tests for uncovered ECs: EC6 (list size != 2)
+                Arguments.of(List.of("()"), IndexOutOfBoundsException.class),
+                // Mutation tests for uncovered ECs: EC6 (null list)
+                Arguments.of(null, NullPointerException.class)
+        );
     }
 }

@@ -37,20 +37,25 @@ public class HumanEval160Test {
         );
     }
 
-    @org.junit.jupiter.api.Test
-    public void doAlgebra_mutation_lengthMismatch_throwsException() {
-        // Mutation tests for uncovered ECs: EC8 (operator/operand size mismatch)
+        @ParameterizedTest(name = "doAlgebra invalid case {index}")
+        @MethodSource("invalidDoAlgebraCases")
+        public void doAlgebra_invalidInput_throwsExpectedException(
+            List<String> operators,
+            List<Integer> operands,
+            Class<? extends Throwable> expectedException
+        ) {
         HumanEval160 solution = new HumanEval160();
-        assertThrows(IndexOutOfBoundsException.class,
-                () -> solution.doAlgebra(new ArrayList<>(ops("+", "+")), new ArrayList<>(nums(1, 2))));
-    }
+        assertThrows(expectedException,
+            () -> solution.doAlgebra(new ArrayList<>(operators), new ArrayList<>(operands)));
+        }
 
-    @org.junit.jupiter.api.Test
-    public void doAlgebra_mutation_divisionByZero_throwsException() {
-        // Mutation tests for uncovered ECs: EC9 (division by zero)
-        HumanEval160 solution = new HumanEval160();
-        assertThrows(ArithmeticException.class,
-                () -> solution.doAlgebra(new ArrayList<>(ops("/")), new ArrayList<>(nums(3, 0))));
+        private static Stream<Arguments> invalidDoAlgebraCases() {
+        return Stream.of(
+            // Mutation tests for uncovered ECs: EC8 (operator/operand size mismatch)
+            Arguments.of(ops("+", "+"), nums(1, 2), IndexOutOfBoundsException.class),
+            // Mutation tests for uncovered ECs: EC9 (division by zero)
+            Arguments.of(ops("/"), nums(3, 0), ArithmeticException.class)
+        );
     }
 
     private static List<String> ops(String... values) {

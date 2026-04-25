@@ -1,7 +1,14 @@
 package gemini.hard;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -30,24 +37,21 @@ public class HumanEval158Test {
         assertEquals(expected, s.findMax(input), "findMax failed for the given input");
     }
 
-    @Test
-    public void testFindMaxMutationEmptyList() {
-        // Mutation tests for uncovered ECs: EC6 (empty list)
-        HumanEval158 s = new HumanEval158();
-        assertThrows(IndexOutOfBoundsException.class, () -> s.findMax(java.util.List.of()));
+    static Stream<Arguments> provideInvalidFindMaxData() {
+        return Stream.of(
+            // Mutation tests for uncovered ECs: EC6 (empty list)
+            Arguments.of(List.of(), IndexOutOfBoundsException.class),
+            // Mutation tests for uncovered ECs: EC6 (null list)
+            Arguments.of(null, NullPointerException.class),
+            // Mutation tests for uncovered ECs: EC7 (null element)
+            Arguments.of(Arrays.asList("abc", null), NullPointerException.class)
+        );
     }
 
-    @Test
-    public void testFindMaxMutationNullList() {
-        // Mutation tests for uncovered ECs: EC6 (null list)
+    @ParameterizedTest
+    @MethodSource("provideInvalidFindMaxData")
+    public void testFindMaxInvalidInputs(List<String> input, Class<? extends Throwable> expectedException) {
         HumanEval158 s = new HumanEval158();
-        assertThrows(NullPointerException.class, () -> s.findMax(null));
-    }
-
-    @Test
-    public void testFindMaxMutationNullElement() {
-        // Mutation tests for uncovered ECs: EC7 (null element)
-        HumanEval158 s = new HumanEval158();
-        assertThrows(NullPointerException.class, () -> s.findMax(Arrays.asList("abc", null)));
+        assertThrows(expectedException, () -> s.findMax(input));
     }
 }

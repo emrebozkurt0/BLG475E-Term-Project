@@ -38,24 +38,25 @@ public class HumanEval153Test {
         );
     }
 
-    @org.junit.jupiter.api.Test
-    public void strongestExtension_mutation_emptyExtensions_throwsException() {
-        // Mutation tests for uncovered ECs: EC6 (empty extensions)
+    @ParameterizedTest(name = "StrongestExtension invalid case {index}")
+    @MethodSource("invalidStrongestExtensionCases")
+    public void strongestExtension_invalidInput_throwsExpectedException(
+            String className,
+            List<String> extensions,
+            Class<? extends Throwable> expectedException
+    ) {
         HumanEval153 solution = new HumanEval153();
-        assertThrows(IndexOutOfBoundsException.class, () -> solution.StrongestExtension("C", List.of()));
+        assertThrows(expectedException, () -> solution.StrongestExtension(className, extensions));
     }
 
-    @org.junit.jupiter.api.Test
-    public void strongestExtension_mutation_nullExtensions_throwsException() {
-        // Mutation tests for uncovered ECs: EC6 (null extensions)
-        HumanEval153 solution = new HumanEval153();
-        assertThrows(NullPointerException.class, () -> solution.StrongestExtension("C", null));
-    }
-
-    @org.junit.jupiter.api.Test
-    public void strongestExtension_mutation_nullExtensionEntry_throwsException() {
-        // Mutation tests for uncovered ECs: EC7 (null extension entry)
-        HumanEval153 solution = new HumanEval153();
-        assertThrows(NullPointerException.class, () -> solution.StrongestExtension("C", Arrays.asList("AB", null)));
+    private static Stream<Arguments> invalidStrongestExtensionCases() {
+        return Stream.of(
+                // Mutation tests for uncovered ECs: EC6 (empty extensions)
+                Arguments.of("C", List.of(), IndexOutOfBoundsException.class),
+                // Mutation tests for uncovered ECs: EC6 (null extensions)
+                Arguments.of("C", null, NullPointerException.class),
+                // Mutation tests for uncovered ECs: EC7 (null extension entry)
+                Arguments.of("C", Arrays.asList("AB", null), NullPointerException.class)
+        );
     }
 }

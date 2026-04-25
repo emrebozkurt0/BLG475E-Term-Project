@@ -1,7 +1,14 @@
 package gemini.hard;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -31,17 +38,19 @@ public class HumanEval119Test {
         assertEquals(expected, s.matchParens(Arrays.asList(input)), "matchParens output should match expected");
     }
 
-    @Test
-    public void testMatchParensMutationMalformedList() {
-        // Mutation tests for uncovered ECs: EC6 (list size != 2)
-        HumanEval119 s = new HumanEval119();
-        assertThrows(IndexOutOfBoundsException.class, () -> s.matchParens(java.util.List.of("()")));
+    static Stream<Arguments> provideInvalidParensData() {
+        return Stream.of(
+            // Mutation tests for uncovered ECs: EC6 (list size != 2)
+            Arguments.of(List.of("()"), IndexOutOfBoundsException.class),
+            // Mutation tests for uncovered ECs: EC6 (null list)
+            Arguments.of(null, NullPointerException.class)
+        );
     }
 
-    @Test
-    public void testMatchParensMutationNullList() {
-        // Mutation tests for uncovered ECs: EC6 (null list)
+    @ParameterizedTest
+    @MethodSource("provideInvalidParensData")
+    public void testMatchParensInvalidInputs(List<String> input, Class<? extends Throwable> expectedException) {
         HumanEval119 s = new HumanEval119();
-        assertThrows(NullPointerException.class, () -> s.matchParens(null));
+        assertThrows(expectedException, () -> s.matchParens(input));
     }
 }

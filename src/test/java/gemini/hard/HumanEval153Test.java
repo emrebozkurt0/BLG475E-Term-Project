@@ -1,7 +1,14 @@
 package gemini.hard;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -35,17 +42,19 @@ public class HumanEval153Test {
         assertEquals(expected, s.StrongestExtension(className, extensions), "StrongestExtension output should match expected");
     }
 
-    @Test
-    public void testStrongestExtensionMutationNullExtensions() {
-        // Mutation tests for uncovered ECs: EC6 (null extensions)
-        HumanEval153 s = new HumanEval153();
-        assertThrows(NullPointerException.class, () -> s.StrongestExtension("C", null));
+    static Stream<Arguments> provideInvalidExtensionData() {
+        return Stream.of(
+            // Mutation tests for uncovered ECs: EC6 (null extensions)
+            Arguments.of("C", null, NullPointerException.class),
+            // Mutation tests for uncovered ECs: EC7 (null extension entry)
+            Arguments.of("C", Arrays.asList("AB", null), NullPointerException.class)
+        );
     }
 
-    @Test
-    public void testStrongestExtensionMutationNullEntry() {
-        // Mutation tests for uncovered ECs: EC7 (null extension entry)
+    @ParameterizedTest
+    @MethodSource("provideInvalidExtensionData")
+    public void testStrongestExtensionInvalidInputs(String className, List<String> extensions, Class<? extends Throwable> expectedException) {
         HumanEval153 s = new HumanEval153();
-        assertThrows(NullPointerException.class, () -> s.StrongestExtension("C", Arrays.asList("AB", null)));
+        assertThrows(expectedException, () -> s.StrongestExtension(className, extensions));
     }
 }

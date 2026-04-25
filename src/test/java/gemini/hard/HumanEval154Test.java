@@ -1,6 +1,11 @@
 package gemini.hard;
 
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -28,17 +33,18 @@ public class HumanEval154Test {
         assertEquals(expected, s.cycpatternCheck(a, b), "cycpatternCheck outcome should match expected");
     }
 
-    @org.junit.jupiter.api.Test
-    public void testCycpatternMutationNullA() {
-        // Mutation tests for uncovered ECs: EC6 (null input)
-        HumanEval154 s = new HumanEval154();
-        assertThrows(NullPointerException.class, () -> s.cycpatternCheck(null, "ab"));
+    static Stream<Arguments> provideInvalidCycpatternData() {
+        return Stream.of(
+            // Mutation tests for uncovered ECs: EC6 (null input)
+            Arguments.of(null, "ab", NullPointerException.class),
+            Arguments.of("ab", null, NullPointerException.class)
+        );
     }
 
-    @org.junit.jupiter.api.Test
-    public void testCycpatternMutationNullB() {
-        // Mutation tests for uncovered ECs: EC6 (null input)
+    @ParameterizedTest
+    @MethodSource("provideInvalidCycpatternData")
+    public void testCycpatternInvalidInputs(String a, String b, Class<? extends Throwable> expectedException) {
         HumanEval154 s = new HumanEval154();
-        assertThrows(NullPointerException.class, () -> s.cycpatternCheck("ab", null));
+        assertThrows(expectedException, () -> s.cycpatternCheck(a, b));
     }
 }

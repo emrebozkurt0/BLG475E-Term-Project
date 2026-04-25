@@ -38,24 +38,21 @@ public class HumanEval158Test {
         );
     }
 
-    @org.junit.jupiter.api.Test
-    public void findMax_mutation_emptyList_throwsException() {
-        // Mutation tests for uncovered ECs: EC6 (empty list)
+    @ParameterizedTest(name = "findMax invalid case {index}")
+    @MethodSource("invalidFindMaxCases")
+    public void findMax_invalidInput_throwsExpectedException(List<String> words, Class<? extends Throwable> expectedException) {
         HumanEval158 solution = new HumanEval158();
-        assertThrows(IndexOutOfBoundsException.class, () -> solution.findMax(List.of()));
+        assertThrows(expectedException, () -> solution.findMax(words));
     }
 
-    @org.junit.jupiter.api.Test
-    public void findMax_mutation_nullList_throwsException() {
-        // Mutation tests for uncovered ECs: EC6 (null list)
-        HumanEval158 solution = new HumanEval158();
-        assertThrows(NullPointerException.class, () -> solution.findMax(null));
-    }
-
-    @org.junit.jupiter.api.Test
-    public void findMax_mutation_nullElement_throwsException() {
-        // Mutation tests for uncovered ECs: EC7 (null element)
-        HumanEval158 solution = new HumanEval158();
-        assertThrows(NullPointerException.class, () -> solution.findMax(Arrays.asList("abc", null)));
+    private static Stream<Arguments> invalidFindMaxCases() {
+        return Stream.of(
+                // Mutation tests for uncovered ECs: EC6 (empty list)
+                Arguments.of(List.of(), IndexOutOfBoundsException.class),
+                // Mutation tests for uncovered ECs: EC6 (null list)
+                Arguments.of(null, NullPointerException.class),
+                // Mutation tests for uncovered ECs: EC7 (null element)
+                Arguments.of(Arrays.asList("abc", null), NullPointerException.class)
+        );
     }
 }

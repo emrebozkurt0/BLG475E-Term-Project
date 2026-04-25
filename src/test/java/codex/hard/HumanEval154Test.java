@@ -32,17 +32,18 @@ public class HumanEval154Test {
         );
     }
 
-    @org.junit.jupiter.api.Test
-    public void cycpatternCheck_mutation_nullA_throwsException() {
-        // Mutation tests for uncovered ECs: EC6 (null input)
+    @ParameterizedTest(name = "cycpatternCheck invalid case {index}")
+    @MethodSource("invalidCycpatternCases")
+    public void cycpatternCheck_invalidInput_throwsExpectedException(String a, String b, Class<? extends Throwable> expectedException) {
         HumanEval154 solution = new HumanEval154();
-        assertThrows(NullPointerException.class, () -> solution.cycpatternCheck(null, "ab"));
+        assertThrows(expectedException, () -> solution.cycpatternCheck(a, b));
     }
 
-    @org.junit.jupiter.api.Test
-    public void cycpatternCheck_mutation_nullB_throwsException() {
-        // Mutation tests for uncovered ECs: EC6 (null input)
-        HumanEval154 solution = new HumanEval154();
-        assertThrows(NullPointerException.class, () -> solution.cycpatternCheck("ab", null));
+    private static Stream<Arguments> invalidCycpatternCases() {
+        return Stream.of(
+                // Mutation tests for uncovered ECs: EC6 (null input)
+                Arguments.of(null, "ab", NullPointerException.class),
+                Arguments.of("ab", null, NullPointerException.class)
+        );
     }
 }
