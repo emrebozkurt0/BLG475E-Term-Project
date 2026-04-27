@@ -1,3 +1,8 @@
+/* @Authors
+* Student Names: Mustafa Berkay Arslan, Emre Bozkurt, Harun Yahya Demirpençe
+* Student IDs: 150210023, 150210030, 150210022
+*/
+
 # LLM Interaction Log: Test Improvement (Gemini - Easy)
 
 **Step:** Test Improvement (fixing test smells)
