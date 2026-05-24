@@ -1,3 +1,7 @@
+/* @Authors
+* Student Names: Mustafa Berkay Arslan, Emre Bozkurt, Harun Yahya Demirpençe
+* Student IDs: 150210023, 150210030, 150210022
+*/
 package bookscan.unmodified.codex;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
